@@ -1,0 +1,27 @@
+#####  BISSECAO
+=# OLD
+env_funcao = "3*x^2 +5*x - 10",
+env_pontos = "-5 0",
+env_decimais = "3",
+env_iteracoes = "10",
+env_veloc_anim = "1",
+g_indices = TRUE,
+g_lh = TRUE
+
+=# NEW
+env_funcao = "3*x^2 +5*x - 10",
+               env_pontos = "-5 1",
+               env_decimais = "3",
+               env_iteracoes = "10",
+               g_indices = TRUE,
+               g_lh = TRUE
+               
+#####  NEWTON RAPHSON
+env_funcao = "x^3 -5.5*x+3",
+                env_x0 = "1.22",
+                env_intervalo = "-3.25 3",
+                env_decimais = "2",
+                env_iteracoes = "0",
+                g_indices = TRUE,
+                g_lv =TRUE,
+                g_ltg = TRUE
