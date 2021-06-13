@@ -44,7 +44,7 @@ server <- function(session,input,output){
   })
   
   observeEvent(input$button,{
-    clock <<- reactiveTimer(as.numeric(input$input_veloc_anim))
+    clock <<- reactiveTimer(as.numeric(input$input_veloc_anim)*1000)
     #clock <<- reactiveTimer(100)
     timer <<- reactiveValues(inc=0, timer=clock,started=FALSE)
     # print("foi")
