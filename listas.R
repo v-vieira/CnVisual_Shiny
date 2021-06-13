@@ -49,7 +49,6 @@ entrada_metodo <- list(
   # Secante -> OK
   c("input_funcao",
     "input_intervalo",
-    "input_x0",
     "input_decimais",
     "input_iteracoes",
     "input_veloc_anim"),

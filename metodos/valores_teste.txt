@@ -1,14 +1,4 @@
 #####  BISSECAO
-=# OLD
-env_funcao = "3*x^2 +5*x - 10",
-env_pontos = "-5 0",
-env_decimais = "3",
-env_iteracoes = "10",
-env_veloc_anim = "1",
-g_indices = TRUE,
-g_lh = TRUE
-
-=# NEW
 env_funcao = "3*x^2 +5*x - 10",
                env_pontos = "-5 1",
                env_decimais = "3",
@@ -25,3 +15,15 @@ env_funcao = "x^3 -5.5*x+3",
                 g_indices = TRUE,
                 g_lv =TRUE,
                 g_ltg = TRUE
+                
+##### FALSA POSICAO
+
+
+##### SECANTE
+env_funcao = "0.1*x^3 -5.5*x + 3",
+              env_pontos = "-5 1",
+              env_iteracoes = "4",
+              env_decimais = "2",
+              env_indices = TRUE,
+              env_linvt = TRUE,
+              env_linsec = TRUE

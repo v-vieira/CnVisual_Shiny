@@ -17,6 +17,7 @@ server <- function(session,input,output){
   source("./metodos/Bissecao.R",encoding = "utf-8")
   source("./metodos/newton_raphson.R",encoding = "utf-8")
   source("./metodos/falsa_posicao.R",encoding = "utf-8")
+  source("./metodos/secante.R",encoding = "utf-8")
   # Mudar os metodos disponíveis de acordo com o tipo
   observeEvent(input$tipo,{
     updateSelectInput(session,
@@ -75,6 +76,15 @@ server <- function(session,input,output){
                     TRUE,
                     TRUE,
                     TRUE)
+    }
+    else if(input$metodo=="Sec"){
+      secante(input$input_funcao,
+              input$input_intervalo,
+              input$input_iteracoes,
+              input$input_decimais,
+              TRUE,
+              TRUE,
+              TRUE)
     }
     timer$started <- TRUE
   })
