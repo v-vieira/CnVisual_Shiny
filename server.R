@@ -7,10 +7,6 @@ server <- function(session,input,output){
  
   clock <- reactiveTimer(1000)
   timer <- reactiveValues(inc=0, timer=clock,started=FALSE)
-  # observeEvent(input$button,{
-  #   
-  # })
-  
   
   # lista para selecionar os métodos
   source("listas.R",encoding = "utf-8")
@@ -18,6 +14,8 @@ server <- function(session,input,output){
   source("./metodos/newton_raphson.R",encoding = "utf-8")
   source("./metodos/falsa_posicao.R",encoding = "utf-8")
   source("./metodos/secante.R",encoding = "utf-8")
+  
+  source("./metodos/inter_pontos.R",encoding="utf-8")
   # Mudar os metodos disponíveis de acordo com o tipo
   observeEvent(input$tipo,{
     updateSelectInput(session,
@@ -42,50 +40,69 @@ server <- function(session,input,output){
       }
     }
   })
-  
+  # Ao clicar no botao, roda o metodo e ativa o timer
   observeEvent(input$button,{
     clock <<- reactiveTimer(as.numeric(input$input_veloc_anim)*1000)
-    #clock <<- reactiveTimer(100)
     timer <<- reactiveValues(inc=0, timer=clock,started=FALSE)
-    # print("foi")
     
     plot_vector <- NULL
     value_output <- NULL
-    if(input$metodo=="Bis"){
-      bissection(input$input_funcao,
-                 input$input_pontos,
-                 input$input_decimais,
-                 input$input_iteracoes,
-                 TRUE,
-                 TRUE)
-    }
-    else if (input$metodo=="Fal_Pos"){
-      falsa(input$input_funcao,
-            input$input_pontos,
-            input$input_decimais,
-            input$input_iteracoes,
-            TRUE,
-            TRUE)
-    }
-    else if(input$metodo=="New_Rap"){
-      newtonraphson(input$input_funcao,
-                    input$input_x0,
-                    input$input_intervalo,
-                    input$input_decimais,
-                    input$input_iteracoes,
-                    TRUE,
-                    TRUE,
-                    TRUE)
-    }
-    else if(input$metodo=="Sec"){
-      secante(input$input_funcao,
-              input$input_intervalo,
-              input$input_iteracoes,
+    if(input$tipo=="tipo_raiz"){
+      if(input$metodo=="Bis"){
+        bissection(input$input_funcao,
+                   input$input_pontos,
+                   input$input_decimais,
+                   input$input_iteracoes,
+                   TRUE,
+                   TRUE)
+      }
+      else if (input$metodo=="Fal_Pos"){
+        falsa(input$input_funcao,
+              input$input_pontos,
               input$input_decimais,
-              TRUE,
+              input$input_iteracoes,
               TRUE,
               TRUE)
+      }
+      else if(input$metodo=="New_Rap"){
+        newtonraphson(input$input_funcao,
+                      input$input_x0,
+                      input$input_intervalo,
+                      input$input_decimais,
+                      input$input_iteracoes,
+                      TRUE,
+                      TRUE,
+                      TRUE)
+      }
+      else{
+        secante(input$input_funcao,
+                input$input_intervalo,
+                input$input_iteracoes,
+                input$input_decimais,
+                TRUE,
+                TRUE,
+                TRUE)
+      }
     }
+    else if(input$tipo=="tipo_interpo"){
+      if(input$metodo=="Pol_fun"){
+        
+      }
+      else if(input$metodo=="Pol_pon"){
+        inter_pontos(input$input_ponto_aprox,
+                     input$input_pontos_x,
+                     input$input_pontos_y,
+                     TRUE,
+                     TRUE)
+      }
+      else{
+        
+      }
+    }
+    else{
+      
+    }
+    
     timer$started <- TRUE
   })
   
