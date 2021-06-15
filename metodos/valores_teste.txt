@@ -27,3 +27,10 @@ env_funcao = "0.1*x^3 -5.5*x + 3",
               env_indices = TRUE,
               env_linvt = TRUE,
               env_linsec = TRUE
+
+##### INTER_PONTOS
+env_ponto_aprox="1.23",
+                  env_pontos_x="-2 -1 0 3 5",
+                  env_pontos_y="-5 -2 0 -1 1",
+                  env_indices=TRUE,
+                  env_linvt=TRUE
