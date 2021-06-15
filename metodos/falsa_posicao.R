@@ -1,6 +1,6 @@
 library(ggplot2)
 library(plotly)
-falsa <- function(env_funcao,env_pontos,env_decimais,env_iteracoes,env_points,env_linsc)
+falsa <- function(env_funcao,env_pontos,env_decimais,env_iteracoes,env_indices,env_linsc)
 {
   # Valores de entrada
   f<-env_funcao
@@ -134,7 +134,7 @@ falsa <- function(env_funcao,env_pontos,env_decimais,env_iteracoes,env_points,en
       
       p <- plot_vector[[k-1]] + geom_point(x = m_k[i], y = 0, col="blue", pch = 1)# Plot dos pontos m_k sobre o eixo x
       
-      if(env_points){#Indices dos pontos
+      if(env_indices){#Indices dos pontos
         index <-c(0:(i-1))
         p <- p + annotate("text", label = toString(i),x= m_k[i],y=3 )
       }
