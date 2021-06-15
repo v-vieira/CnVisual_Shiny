@@ -28,11 +28,6 @@ input_iteracoes <- textInput(
   label = "Nº iterações"
 )
 
-input_veloc_anim <- textInput(
-  inputId="input_veloc_anim",
-  label = "Velocidade de animação"
-)
-
 input_pontos_x <- textInput(
   inputId="input_pontos_x",
   label = "Pontos X"
@@ -61,4 +56,9 @@ input_lim_x <- textInput(
 input_divisoes <- textInput(
   inputId="input_divisoes",
   label = "nº de divisões"
+)
+
+input_veloc_anim <- textInput(
+  inputId="input_veloc_anim",
+  label = "Velocidade de animação"
 )

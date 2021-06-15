@@ -69,11 +69,12 @@ entrada_metodo <- list(
   # Pol. de Lagrange por pontos
   c("input_pontos_x",
     "input_pontos_y",
-    "input_ponto_aprox"
+    "input_ponto_aprox",
     #TODO Colocar Intervalos de plot abaixo:
     #,
     #"input_intervalo_x",
-    #"input_intervalo_y"
+    #"input_intervalo_y",
+    "input_veloc_anim"
     ),
   # Taylor
   c("input_funcao",
@@ -86,7 +87,7 @@ entrada_metodo <- list(
     ),
   
   #'
-  #'    INTERPOLAÇÃO
+  #'    INTEGRAÇÃO
   #'
   
   # Trapézios
