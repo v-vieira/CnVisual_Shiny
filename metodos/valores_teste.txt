@@ -34,3 +34,10 @@ env_ponto_aprox="1.23",
                   env_pontos_y="-5 -2 0 -1 1",
                   env_indices=TRUE,
                   env_linvt=TRUE
+
+##### INTER_FUNCAO
+env_ponto_aprox='1.26',
+                  env_pontos_x= '-1.5 1 0.5 2.78',
+                  env_funcao= 'cos(x)*2 -sin(x-3) -3*x^3+6*x',
+                  env_indices= TRUE,
+                  env_linvt=TRUE

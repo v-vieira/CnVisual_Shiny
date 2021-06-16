@@ -14,7 +14,7 @@ server <- function(session,input,output){
   source("./metodos/newton_raphson.R",encoding = "utf-8")
   source("./metodos/falsa_posicao.R",encoding = "utf-8")
   source("./metodos/secante.R",encoding = "utf-8")
-  
+  source("./metodos/inter_funcao.R",encoding = "utf-8")
   source("./metodos/inter_pontos.R",encoding="utf-8")
   # Mudar os metodos disponíveis de acordo com o tipo
   observeEvent(input$tipo,{
@@ -86,7 +86,11 @@ server <- function(session,input,output){
     }
     else if(input$tipo=="tipo_interpo"){
       if(input$metodo=="Pol_fun"){
-        
+        inter_funcao(input$input_ponto_aprox,
+                     input$input_pontos_x,
+                     input$input_funcao,
+                     TRUE,
+                     TRUE)
       }
       else if(input$metodo=="Pol_pon"){
         inter_pontos(input$input_ponto_aprox,

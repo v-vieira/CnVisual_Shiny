@@ -60,11 +60,12 @@ entrada_metodo <- list(
   # Pol. de Lagrange por função
   c("input_pontos_x",
     "input_funcao",
-    "input_ponto_aprox"
+    "input_ponto_aprox",
     #TODO Colocar Intervalos de plot abaixo:
     #,
     #"input_intervalo_x",
-    #"input_intervalo_y"
+    #"input_intervalo_y",
+    "input_veloc_anim"
     ),
   # Pol. de Lagrange por pontos
   c("input_pontos_x",
@@ -80,10 +81,11 @@ entrada_metodo <- list(
   c("input_funcao",
     "input_ponto_input",
     "input_ponto_aprox",
-    "input_lim_x" #TODO Conferir se esse é gráfico ou não
+    "input_lim_x", #TODO Conferir se esse é gráfico ou não
     #TODO Colocar Intervalos de plot abaixo:
     #,
     #"input_intervalo_x",
+    "input_veloc_anim"
     ),
   
   #'
