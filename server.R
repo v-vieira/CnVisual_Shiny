@@ -40,22 +40,10 @@ server <- function(session,input,output){
       }
     }
   })
-  
   # Ao clicar no botao, roda o metodo e ativa o timer
   observeEvent(input$button,{
-    if(input$input_veloc_anim == ''){
-      clock <<- reactiveTimer(300)
-      timer <<- reactiveValues(inc=0, timer=clock,started=FALSE)
-    }
-    else if (as.numeric(input$input_veloc_anim) < 0.3){
-      clock <<- reactiveTimer(300)
-      timer <<- reactiveValues(inc=0, timer=clock,started=FALSE)
-    }
-    else{
-      clock <<- reactiveTimer(as.numeric(input$input_veloc_anim)*1000)
-      timer <<- reactiveValues(inc=0, timer=clock,started=FALSE)
-    }
-    print("aqui")
+    clock <<- reactiveTimer(as.numeric(input$input_veloc_anim)*1000)
+    timer <<- reactiveValues(inc=0, timer=clock,started=FALSE)
     
     plot_vector <- NULL
     value_output <- NULL
