@@ -99,7 +99,7 @@ entrada_metodo <- list(
     "input_veloc_anim"),
   # Simpson
   c("input_funcao",
-    "input_intervalo", #TODO: Colocar essa entrada como input_intervalo_integracao
+    "input_interv_integra",
     "input_divisoes",
     "input_veloc_anim")
 )
