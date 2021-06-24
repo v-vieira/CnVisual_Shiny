@@ -1,7 +1,7 @@
-trapezios<- function(env_funcao,env_pontos_x,env_divisoes,env_pintar,env_linvt,env_indices){
+trapezios<- function(env_funcao,env_interv_integra,env_divisoes,env_pintar,env_linvt,env_indices){
   #== Valores de entrada
   f<-env_funcao
-  interentr<-env_pontos_x
+  interentr<-env_interv_integra
   div<-as.numeric(env_divisoes) # Quantidade de divisões
   
   #============== pegar os valores separados em x =======
