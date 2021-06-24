@@ -160,5 +160,5 @@ trapezios<- function(env_funcao,env_interv_integra,env_divisoes,env_pintar,env_l
   plot_vector[[div+3]] <<- p
   #Resultados a serem mostrados ao usuario
   value_output <<- list()
-  value_output[[1]] <<-  paste0("Valor da soma pelo metodo: ",soma," | O erro do metodo: ",Errotrap)
+  value_output[[1]] <<-  paste0("Valor da integração pelo metodo: ",soma," | O erro do metodo: ",Errotrap)
 }
