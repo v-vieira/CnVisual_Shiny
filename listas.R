@@ -15,8 +15,8 @@ lista_entradas <- list("input_funcao",
                        "input_ponto_aprox",
                        "input_ponto_input",
                        "input_lim_x",
-                       "input_divisoes"
-                       )
+                       "input_divisoes",
+                       "input_interv_integra")
 
 # lista com os tipos de metodos
 nomes_tipos <- list("tipo_raiz","tipo_interpo",'tipo_integra')
@@ -94,7 +94,7 @@ entrada_metodo <- list(
   
   # Trapézios
   c("input_funcao",
-    "input_intervalo", #TODO: Colocar essa entrada como input_intervalo_integracao
+    "input_interv_integra",
     "input_divisoes",
     "input_veloc_anim"),
   # Simpson

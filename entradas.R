@@ -62,3 +62,8 @@ input_veloc_anim <- textInput(
   inputId="input_veloc_anim",
   label = "Velocidade de animação"
 )
+
+input_interv_integra <- textInput(
+  inputId="input_interv_integra",
+  label = "Intervalo de integração"
+)

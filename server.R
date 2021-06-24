@@ -16,6 +16,8 @@ server <- function(session,input,output){
   source("./metodos/secante.R",encoding = "utf-8")
   source("./metodos/inter_funcao.R",encoding = "utf-8")
   source("./metodos/inter_pontos.R",encoding="utf-8")
+  
+  source("./metodos/trapezios.R",encoding="utf-8")
   # Mudar os metodos disponíveis de acordo com o tipo
   observeEvent(input$tipo,{
     updateSelectInput(session,
@@ -115,7 +117,14 @@ server <- function(session,input,output){
       }
     }
     else{
-      
+      if(input$metodo=="Tra"){
+        trapezios(input$input_funcao,
+                  input$input_interv_integra,
+                  input$input_divisoes,
+                  TRUE,
+                  TRUE,
+                  TRUE)
+      }
     }
     
     timer$started <- TRUE
