@@ -67,3 +67,13 @@ input_interv_integra <- textInput(
   inputId="input_interv_integra",
   label = "Intervalo de integração"
 )
+
+input_graus <- checkboxGroupInput(
+  inputId="input_graus",
+  label = "Graus de integração",
+  choices = c("Grau 1"=1,
+              "Grau 2"=2,
+              "Grau 3"=3,
+              "Grau 4"=4,
+              "Grau 5"=5)
+)

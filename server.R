@@ -16,7 +16,7 @@ server <- function(session,input,output){
   source("./metodos/secante.R",encoding = "utf-8")
   source("./metodos/inter_funcao.R",encoding = "utf-8")
   source("./metodos/inter_pontos.R",encoding="utf-8")
-  
+  source("./metodos/taylor.R",encoding="utf-8")
   source("./metodos/trapezios.R",encoding="utf-8")
   source("./metodos/simpson.R",encoding="utf-8")
   # Mudar os metodos disponíveis de acordo com o tipo
@@ -114,7 +114,12 @@ server <- function(session,input,output){
                      TRUE)
       }
       else{
-        
+        taylor(input$input_funcao,
+               input$input_ponto_input,
+               input$input_ponto_aprox,
+               #TODO: Colocar como input (gráfico)
+               env_int_plot = '-6 6',
+               input$input_graus)
       }
     }
     else{

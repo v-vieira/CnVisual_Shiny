@@ -16,7 +16,8 @@ lista_entradas <- list("input_funcao",
                        "input_ponto_input",
                        "input_lim_x",
                        "input_divisoes",
-                       "input_interv_integra")
+                       "input_interv_integra",
+                       "input_graus")
 
 # lista com os tipos de metodos
 nomes_tipos <- list("tipo_raiz","tipo_interpo",'tipo_integra')
@@ -85,6 +86,7 @@ entrada_metodo <- list(
     #TODO Colocar Intervalos de plot abaixo:
     #,
     #"input_intervalo_x",
+    "input_graus",
     "input_veloc_anim"
     ),
   

@@ -41,7 +41,8 @@ ui <- fluidPage(
         shinyjs::hidden(input_ponto_input),
         shinyjs::hidden(input_lim_x),
         shinyjs::hidden(input_divisoes),
-        shinyjs::hidden(input_interv_integra)
+        shinyjs::hidden(input_interv_integra),
+        shinyjs::hidden(input_graus)
         ),
       
       actionButton(    # Botão para rodar

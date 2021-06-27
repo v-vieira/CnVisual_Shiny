@@ -43,4 +43,17 @@ env_ponto_aprox='1.26',
                   env_linvt=TRUE
 
 ##### TRAPEZIOS  
-env_funcao="cos(x)*3-x^2",env_pontos_x="-3 4",env_divisoes="3",env_pintar=TRUE,env_linvt=TRUE,env_indices=TRUE
+env_funcao="cos(x)*3-x^2",
+            env_pontos_x="-3 4",
+            env_divisoes="3",
+            env_pintar=TRUE,
+            env_linvt=TRUE,
+            env_indices=TRUE
+            
+##### SIMPSON
+env_funcao="cos(x)*3-x^2",
+            env_interv_integra="-4 9",
+            env_divisoes= '4',
+            env_linvt=TRUE,
+            env_indices=TRUE,
+            env_pinta=TRUE
