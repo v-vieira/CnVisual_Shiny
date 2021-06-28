@@ -1,6 +1,7 @@
 library(shiny)
 library(shinyjs)
 library(plotly)
+library(shinyalert)
 
 # Importação dos espaços de inputs
 source("entradas.R",encoding = "utf-8")

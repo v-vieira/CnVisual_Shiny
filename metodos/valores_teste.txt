@@ -57,3 +57,6 @@ env_funcao="cos(x)*3-x^2",
             env_linvt=TRUE,
             env_indices=TRUE,
             env_pinta=TRUE
+            
+##### TAYLOR
+taylor(env_funcao='cos(x)*x^2 + exp(x*0.2)',env_ponto_input = 1.2,env_ponto_aprox = 3.4,env_int_plot = '-5 6',env_graus = list(1,2,3,4,5))

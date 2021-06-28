@@ -82,7 +82,6 @@ entrada_metodo <- list(
   c("input_funcao",
     "input_ponto_input",
     "input_ponto_aprox",
-    "input_lim_x", #TODO Conferir se esse é gráfico ou não
     #TODO Colocar Intervalos de plot abaixo:
     #,
     #"input_intervalo_x",

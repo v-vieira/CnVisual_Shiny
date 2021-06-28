@@ -8,9 +8,11 @@ input_pontos <- textInput(
   label = "Pontos"
 )
 
-input_x0 <- textInput(
+input_x0 <- numericInput(
   inputId="input_x0",
-  label = "x0"
+  label = "x0",
+  step = 0.05,
+  value = NULL
 )
 
 input_intervalo <- textInput(
@@ -18,14 +20,22 @@ input_intervalo <- textInput(
   label = "Intervalo"
 )
 
-input_decimais <- textInput(
+input_decimais <- numericInput(
   inputId="input_decimais",
-  label = "Nº casas decimais"
+  label = "Nº casas decimais",
+  step = 1,
+  min = 1,
+  max = 5,
+  value = 1
 )
 
-input_iteracoes <- textInput(
+input_iteracoes <- numericInput(
   inputId="input_iteracoes",
-  label = "Nº iterações"
+  label = "Nº iterações",
+  step = 1,
+  min = 2,
+  max = 15,
+  value = NULL
 )
 
 input_pontos_x <- textInput(
@@ -38,14 +48,18 @@ input_pontos_y <- textInput(
   label = "Pontos Y"
 )
 
-input_ponto_aprox <- textInput(
+input_ponto_aprox <- numericInput(
   inputId="input_ponto_aprox",
-  label = "Ponto a ser aproximado"
+  label = "Ponto a ser aproximado",
+  step = 0.05,
+  value = NULL
 )
 
-input_ponto_input <- textInput(
+input_ponto_input <- numericInput(
   inputId="input_ponto_input",
-  label = "Ponto utilizado na aproximação"
+  label = "Ponto utilizado na aproximação",
+  step = 0.05,
+  value = NULL
 )
 
 input_lim_x <- textInput(
@@ -53,14 +67,22 @@ input_lim_x <- textInput(
   label = "Limite em x"
 )
 
-input_divisoes <- textInput(
+input_divisoes <- numericInput(
   inputId="input_divisoes",
-  label = "nº de divisões"
+  label = "nº de divisões",
+  step = 1,
+  min = 2,
+  max = 14,
+  value = 2
 )
 
-input_veloc_anim <- textInput(
+input_veloc_anim <- numericInput(
   inputId="input_veloc_anim",
-  label = "Velocidade de animação"
+  label = "Velocidade de animação",
+  step = 0.1,
+  min = 0.3,
+  max = 5,
+  value = NULL
 )
 
 input_interv_integra <- textInput(
