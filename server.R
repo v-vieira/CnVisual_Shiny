@@ -8,7 +8,8 @@ server <- function(session,input,output){
   clock <- reactiveTimer(1000)
   timer <- reactiveValues(inc=0, timer=clock,started=FALSE)
   
-  # lista para selecionar os métodos
+ 
+  source("./funcoes/popup.R",encoding = "utf-8")
   source("listas.R",encoding = "utf-8")
   source("./metodos/Bissecao.R",encoding = "utf-8")
   source("./metodos/newton_raphson.R",encoding = "utf-8")
@@ -61,6 +62,7 @@ server <- function(session,input,output){
     
     plot_vector <- NULL
     value_output <- NULL
+    error_vector <- c()
     if(input$tipo=="tipo_raiz"){
       if(input$metodo=="Bis"){
         bissection(input$input_funcao,
@@ -140,8 +142,13 @@ server <- function(session,input,output){
                 TRUE)
       }
     }
-    
-    timer$started <- TRUE
+    if(is.null(error_vector)){
+      timer$started <- TRUE
+    }
+    else{
+      timer$started <- FALSE
+      popup_erro(error_vector)
+    }
   })
   
   observe({

@@ -8,6 +8,7 @@ source("entradas.R",encoding = "utf-8")
 
 ui <- fluidPage(
   useShinyjs(),
+  useShinyalert(),
   titlePanel("CnVisual"),
   sidebarLayout(
   

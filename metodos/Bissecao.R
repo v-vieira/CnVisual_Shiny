@@ -1,21 +1,5 @@
-#valuetextm <- "Aproximacoes obtidas"
-
-#valores de entrada
-#' env_funcao = Função de entrada | texto
-#' env_pontos = | texto
-#' env_decimais = Numero de casa de decimais de precisação | texto
-#' env_iteracões = Numero maximom de iterações | texto
-#' env_veloc_animm = Velocidade de animação | texto
-#' g_indices = indice dos graficos | Logico
-#' g_lv = plot das linhas verticais | Logico
-#' 
-
-#==== Funcao principal (que faz o metodo)
-bissection <- function(env_funcao,env_pontos,env_decimais,env_iteracoes,g_indices,g_lh)
-{
-  #= [[1]] do plot
-  
-  
+bissection <- function(env_funcao,env_pontos,env_decimais,env_iteracoes,g_indices,g_lh){
+  error_vector <<-c()
   #== Valores de entrada
   f<-env_funcao
   pointsentr<-env_pontos
@@ -38,8 +22,9 @@ bissection <- function(env_funcao,env_pontos,env_decimais,env_iteracoes,g_indice
   eval(parse(text=func))# Transformando o texto salvo na variavel ftext em uma expressao
   
   fa <- func(a0)
+  print(fa)
   fb <- func(b0)
-  
+  print(fb)
   # Vetores para o plot
   a_k <- c()
   b_k <- c()
@@ -53,7 +38,9 @@ bissection <- function(env_funcao,env_pontos,env_decimais,env_iteracoes,g_indice
   # TODO: Implementar essa msg de erro
   #=== Garantindo que os pre-requisitos estao sendo seguidos exibindo janela de erro
   #
-  # if(abs(fa)<stp){ # Erro caso o extremo inferior ja satisfaca o criterio de parada
+  error_vector = c()
+  if(abs(fa)<stp){ # Erro caso o extremo inferior ja satisfaca o criterio de parada
+    error_vector <<- c(error_vector,'O ponto \'a\' já satisfaz o critério de parada')
   #   #== Criacao da janela de erro
   #   error.FAMINOR <- gwindow("Erro", width = 15)
   #   error.FAgt <- ggroup(horizontal = FALSE, container = error.FAMINOR)
@@ -62,10 +49,11 @@ bissection <- function(env_funcao,env_pontos,env_decimais,env_iteracoes,g_indice
   #   exit.FA <-function(h,...){dispose(error.FAMINOR)}
   #   gbutton("Ok", cont= error.FAgb, handler = exit.FA)
   #   stop #Parar o codigo se a janela for criada
-  # }
+  }
   
   # TODO: Implementar essa msg de erro
-  # if(abs(fb)<stp){ #Erro caso o extremo superior ja satisfaca o criterio de parada
+  if(abs(fb)<stp){ #Erro caso o extremo superior ja satisfaca o criterio de parada
+    error_vector <<- c(error_vector,'O ponto \'b\' já satisfaz o critério de parada')
   #   #== Criacao da janela de erro
   #   error.FBMINOR <- gwindow("Erro", width = 15)
   #   error.FBgt <- ggroup(horizontal = FALSE, container = error.FBMINOR)
@@ -74,12 +62,24 @@ bissection <- function(env_funcao,env_pontos,env_decimais,env_iteracoes,g_indice
   #   exit.FB <-function(h,...){dispose(error.FBMINOR)}
   #   gbutton("Ok", cont= error.FBgb, handler = exit.FB)
   #   stop #Parar o codigo se a janela for criada
-  # }
+  }
   
   #===Comeco do metodo em si
   #
-  if((fa*fb)<0) # Garantir que o metodo so seja feito caso tenha um numero impar de raizes no intervalo dado
-  {
+  
+  #TODO: Implementar essa msg de erro
+  # Garantir que o metodo so seja feito caso tenha um numero impar de raizes no intervalo dado
+  if((fa*fb)>0){
+    error_vector <<- c(error_vector,'f(a)*f(b) > 0; Portanto, não é possível garantir que há uma raiz neste intervalo')
+    #   error.NoNegative <- gwindow("Erro",width = 10)
+    #   error.NNgt <- ggroup(horizontal = FALSE, container = error.NoNegative)
+    #   error.NNgb <- ggroup(horizontal = FALSE, container = error.NoNegative)
+    #   error.NNlabel <- glabel("No intervalo dado a funcao nao tem raiz, tem um numero par de raizes, ou a raiz e um ponto critico da funcao. Escolha outro interlavo", container=error.NNgt)
+    #   exit.NN <-function(h,...){dispose(error.NoNegative)}
+    #   gbutton("Ok", cont= error.NNgb, handler = exit.NN)
+    # 
+  }
+  if(is.null(error_vector)){
     whilevar <- -1
     while(whilevar == -1) # Garantir que seja feito somente ate que o criterio do erro nao seja satisfeito
     {
@@ -177,148 +177,9 @@ bissection <- function(env_funcao,env_pontos,env_decimais,env_iteracoes,g_indice
       }
     }
     
-    # TODO: Implementar zoom
-    # #=== Plot do zoom
-    # #
-    # x_max<- -999
-    # x_min<- 999
-    # print(cont)
-    # #pegar apenas 4 ultimas iteracoes, ou apenas a que houver
-    # if(cont>3){
-    #   iz <- cont-3
-    #   index <-c((cont-4):(cont-1))
-    #   
-    #   for (i in iz:(cont-1)) #averiguar ponto maximo e minimo com mais de 3 pontos
-    #   {
-    #     if(m_k[i] > x_max) x_max <- m_k[i]
-    #     if(m_k[i] < x_min) x_min <- m_k[i]
-    #   }
-    #   
-    # }
-    # else {
-    #   if(cont==1){
-    #     iz<- 1
-    #     index <-c(0)
-    #     
-    #     #colocar como pontos maximos os pontos de entrada
-    #     x_max <- b_k[1]
-    #     x_min <- a_k[1]
-    #   }
-    #   else{
-    #     iz<- 1
-    #     index <-c(0:(cont-1))
-    #     
-    #     for (i in iz:(cont-1)) #averiguar ponto maximo e minimo entre 1 e 3 pontos
-    #     {
-    #       if(m_k[i] > x_max) x_max <- m_k[i]
-    #       if(m_k[i] < x_min) x_min <- m_k[i]
-    #     }
-    #     
-    #   }
-    # }
-    # # TODO melhorar 
-    # 
-    # #Pegar os valores maximos e minimos da funcao e forcar um valor minimo e maximo para o plot
-    # y_min <- optimize(func,interval = c(x_min,x_max)) #y_min pega o valor que da o minimo em x e o valor em y
-    # y_min <- y_min$objective #y_min agora pega apenas o valor em y
-    # y_max <- optimize(func,interval = c(x_min,x_max),maximum = TRUE)
-    # y_max <- y_max$objective
-    # 
-    # #garantir um valor minimo de 0.25 casa decimal
-    # if(y_min> -0.1) y_min <- -0.25
-    # if(y_max<0.1) y_max <- 0.25
-    # 
-    # visible(gg2) <- TRUE #agora a area grafica gg2 que ira receber o plot
-    # par(mar=rep(0, 4)) #margem
-    # plot(func, xlim=c(x_min,x_max),ylim=c(y_min,y_max), col = "red", xlab="Eixo x", ylab="Eixo y", container= gg) #plot da funcao
-    # abline(h=0, lty=2)
-    # abline(v=0, lty=2)
-    # 
-    # points(m_k[iz:cont], z_k[iz:cont], col="blue", pch = 1, cer = 5) # Plot dos pontos m_k sobre o eixo x
-    # 
-    # if(g_indices){
-    #   text(m_k[iz:cont],z_k[iz:cont],index,cex=0.65, pos=3, col="blue")
-    # }
     
-    #Resultados a serem mostrados ao usuario
-    
-    #dispose(mk_output)
-    
-    
+    value_output <<- list()
+    value_output[[1]] <<- paste("Aproximações: ",paste0(m_k, collapse =" | "))
   }
-  # TODO: Implementar essa msg de erro
-  
-  # #== Erro para caso tenha um numero par de raizes
-  # else{
-  #   error.NoNegative <- gwindow("Erro",width = 10)
-  #   error.NNgt <- ggroup(horizontal = FALSE, container = error.NoNegative)
-  #   error.NNgb <- ggroup(horizontal = FALSE, container = error.NoNegative)
-  #   error.NNlabel <- glabel("No intervalo dado a funcao nao tem raiz, tem um numero par de raizes, ou a raiz e um ponto critico da funcao. Escolha outro interlavo", container=error.NNgt)
-  #   exit.NN <-function(h,...){dispose(error.NoNegative)}
-  #   gbutton("Ok", cont= error.NNgb, handler = exit.NN)
-  # 
-  # }
-  value_output <<- list()
-  value_output[[1]] <<- paste("Aproximações: ",paste0(m_k, collapse =" | "))
 }
-
-
-#===========================================================================
-#INTERFACE
-# winbissection <- gwindow("Metodo da Bissecao") #Criacao da janela
-# 
-# ##= Criacao dos grupos
-# Groupbuttons <- ggroup(container = winbissection, horizontal=FALSE)
-# Groupgraphic <- ggroup(container = winbissection, horizontal=FALSE)
-# 
-# ##= Cricao dos frames
-# buttonsFrame <- gframe("Dados de Entrada", container = Groupbuttons, horizontal = FALSE)
-# gbutton("Desenhe", cont= Groupbuttons, handler = bissection)
-# valueframe <- gframe("Resultados", container = Groupbuttons, hozizontal = TRUE)
-# mk_output <- gtext("", container=valueframe, expand = TRUE)
-# 
-# ##= Criacao das opcoes graficas
-# checkboxframe <- gframe("Opcoes Graficas", container =Groupgraphic, horizontal = TRUE)
-# glabel("Selecione antes do Plot", container= checkboxframe)
-# g_indices <- gcheckbox("Indices de x", checked = FALSE, cont =checkboxframe)
-# g_lv <- gcheckbox("Linha auxiliar", checked = TRUE, cont= checkboxframe, expand = TRUE)
-# 
-# ##= Criacao das area do zoom
-# zoomGraphFrame <- gframe("Zoom do grafico principal", container = Groupbuttons, horizontal = FALSE)
-# gg2<-ggraphics(container = zoomGraphFrame,  width = 220, height = 220)
-# 
-# ##= Criacao da area do plot principal
-# mainGrapghFrame <- gframe("Grafico Principal", container = Groupgraphic)
-# gg<-ggraphics(container = mainGrapghFrame, width = 500, height = 500)
-# 
-# ##= area de entrada dos dados
-# functionframe <- gframe("Funcao", container = buttonsFrame, horizontal = TRUE)
-# env_funcao<-gedit("",width = 50, cont = functionframe, initial.msg = "ex: 2*x + exp(x) - sin(x) + log(x)")
-# 
-# intervalframe <- gframe("Intervalo", container = buttonsFrame, horizontal = TRUE)
-# glabel("Intervalo em x:", container = intervalframe)
-# env_pontos<-gedit("", width = 20,cont = intervalframe, initial.msg = "Separados por espaco")
-# 
-# stopframe <- gframe("Precisao desejada", container= buttonsFrame, horizontal=TRUE)
-# glabel("No de casas decimais:", container = stopframe)
-# env_decimais<-gedit("",width = 5, cont = stopframe, initial.msg = "ex.: 1 para 0,1")
-# glabel("No de iteracoes:", container = stopframe)
-# env_iteracoes<-gedit("",width = 5, cont = stopframe, initial.msg = "ex.: 0 p/ ilimitado")
-# 
-# sppedframe <- gframe("Velocidade da animacao", container= buttonsFrame, horizontal=TRUE, expand = TRUE)
-# glabel("Tempo em segundos:", container = sppedframe)
-# env_veloc_anim<-gedit("",width = 35, cont = sppedframe, initial.msg = "Intervalo de tempo entre as iteracoes")
-# 
-# ##= criacao do botao de saida
-# exit_func<-function(h,...){dispose(winbissection)}
-# gbutton("SAIR", cont= Groupbuttons, handler = exit_func)
-# 
-# ##= while utilizado na construcao da animacao
-# while(isExtant(winbissection)) Sys.sleep(1)
-# 
-# ##= Mudar o icone da janela
-# dir <- dirname(sys.frame(1)$ofile)
-# icon_dir <-paste0(dir, "/icon.png")
-# img <- gdkPixbufNewFromFile(icon_dir)
-# getToolkitWidget(winbissection)$setIcon(img$retval)
 
