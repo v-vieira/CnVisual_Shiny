@@ -4,11 +4,14 @@ library(plotly)
 library(ggplot2)
 
 server <- function(session,input,output){
- 
+  ### Inicia o timer com 1 seg
   clock <- reactiveTimer(1000)
   timer <- reactiveValues(inc=0, timer=clock,started=FALSE)
+  ### Variáveis globais, usadas para controle.
+  plot_vector <<- NULL
+  value_output <<- NULL
+  error_vector <<- c()
   
- 
   source("./funcoes/popup.R",encoding = "utf-8")
   source("listas.R",encoding = "utf-8")
   source("./metodos/Bissecao.R",encoding = "utf-8")
@@ -20,12 +23,13 @@ server <- function(session,input,output){
   source("./metodos/taylor.R",encoding="utf-8")
   source("./metodos/trapezios.R",encoding="utf-8")
   source("./metodos/simpson.R",encoding="utf-8")
-  # Mudar os metodos disponíveis de acordo com o tipo
+  
+  ### Mudar os metodos disponíveis de acordo com o tipo
   observeEvent(input$tipo,{
     updateSelectInput(session,
-      inputId = "metodo",
-      choices = metodos_tipos[[input$tipo]]
-      )
+                      inputId = "metodo",
+                      choices = metodos_tipos[[input$tipo]]
+    )
     shinyjs::showElement(id = input$tipo)
     for (value in nomes_tipos){
       if (value != input$tipo){
@@ -33,7 +37,7 @@ server <- function(session,input,output){
       }
     }
   })
-  # Mostrar apenas as entradas de acordo com o metodo
+  ### Mostrar apenas as entradas de acordo com o metodo
   observeEvent(input$metodo,{
     for (value in lista_entradas){
       if (value %in% entrada_metodo[[input$metodo]]){
@@ -45,7 +49,7 @@ server <- function(session,input,output){
     }
   })
   
-  # Ao clicar no botao, roda o metodo e ativa o timer
+  ### Ao clicar no botao, roda o metodo e ativa o timer
   observeEvent(input$button,{
     if(input$input_veloc_anim == ''){
       clock <<- reactiveTimer(300)
@@ -60,9 +64,11 @@ server <- function(session,input,output){
       timer <<- reactiveValues(inc=0, timer=clock,started=FALSE)
     }
     
-    plot_vector <- NULL
-    value_output <- NULL
-    error_vector <- c()
+    ### Variáveis globais, usadas para controle.
+    plot_vector <<- NULL
+    value_output <<- NULL
+    error_vector <<- c()
+    
     if(input$tipo=="tipo_raiz"){
       if(input$metodo=="Bis"){
         bissection(input$input_funcao,
@@ -92,7 +98,7 @@ server <- function(session,input,output){
       }
       else{
         secante(input$input_funcao,
-                input$input_intervalo,
+                input$input_pontos,
                 input$input_iteracoes,
                 input$input_decimais,
                 TRUE,
@@ -151,20 +157,24 @@ server <- function(session,input,output){
     }
   })
   
+  ### Para cada alteração de valor do timer, plot os valores.
   observe({
     timer$timer()
-    if(isolate(timer$started)&&isolate(timer$inc<=length(plot_vector)-1)){
-      output$plot1<- NULL
-      output$plot1<- renderPlotly({
-        ggplotly(plot_vector[[timer$inc]])
-      })
-      timer$inc<-isolate(timer$inc)+1
-      if(timer$inc==length(plot_vector)){
-        output$text_output <- renderText({value_output[[1]]})
+    if(is.null(error_vector)){
+      if(isolate(timer$started)&&isolate(timer$inc<=length(plot_vector)-1)){
+        output$plot1<- NULL
+        output$plot1<- renderPlotly({
+          ggplotly(plot_vector[[timer$inc]])
+        })
+        timer$inc<-isolate(timer$inc)+1
+        if(timer$inc==length(plot_vector)){
+          output$text_output <- renderText({value_output[[1]]})
+        }
       }
     }
   })
   
+  ### controle do timer
   observeEvent(input$s1,{timer$started<-TRUE})
   observeEvent(input$s2,{timer$started<-FALSE})
   observeEvent(input$s3, {

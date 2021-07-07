@@ -6,7 +6,7 @@ popup_erro<- function(error_vector){
   shinyalert(
     title = "ERRO",
     text = paste("<div style ='text-align:left'>
-                <div style ='font-weight: bold;'>Foi encontrado ao menos dos seguintes erros:</div>
+                <div style ='font-weight: bold;'>Atenção, corriga o(s) seguinte(s) erro(s):</div>
                 <ul>",text_html,"
                 </ul>
                 <div> Para mais informações acesse a documentação disponível <a href='https://google.com'>aqui</a> </div>
