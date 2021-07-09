@@ -1,3 +1,6 @@
+# Ignore all the folder
+tests/*
+
 # History files
 .Rhistory
 .Rapp.history
