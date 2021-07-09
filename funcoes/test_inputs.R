@@ -34,8 +34,8 @@ test_inputs <- function(input_metodo,input){
     }
     # Teste da função
     else if(metodo %in% type_fun){
-      # garantir que não tem complexo
-      if(str_detect(met,'i') || met==''){
+      # garantir que não tem complexo, mas deixar sin()
+      if(str_detect(str_replace(met,'sin',''),'i') || met==''){
         error_vector <<- append(error_vector,paste('Não foi possível criar a função dada em ',metodo))
       }
       else{
