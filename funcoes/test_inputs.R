@@ -35,13 +35,13 @@ test_inputs <- function(input_metodo,input){
     # Teste da função
     else if(metodo %in% type_fun){
       # garantir que não tem complexo
-      if(str_detect(met,'i')){
-        error_vector <<- append(error_vector,paste('Não foi possível criar a função dada em',metodo))
+      if(str_detect(met,'i') || met==''){
+        error_vector <<- append(error_vector,paste('Não foi possível criar a função dada em ',metodo))
       }
       else{
         tryCatch({eval(parse(text=paste('b<-function(x){',met,'}')))},
                  error = function(e){
-                   error_vector <<- append(error_vector,paste('Não foi possível criar a função dada em',metodo))
+                   error_vector <<- append(error_vector,paste('Não foi possível criar a função dada em ',metodo))
                  })
       }
     }

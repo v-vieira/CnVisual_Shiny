@@ -84,26 +84,23 @@ trapezios<- function(env_funcao,env_interv_integra,env_divisoes,env_pintar,env_l
     
     z_k <- rep(0, (div+1))
     
-    p1 <- ggplot(data = data.frame(x = 0,y=0), mapping = aes(x = x,y=y)) + geom_vline(xintercept = 0) + geom_hline(yintercept = 0) + xlim(xmin,xmax) + xlab("Eixo x") + ylab("Eixo y")
-    p <- p1 + stat_function(fun = func, col = "red")
+    p <- ggplot(data = data.frame(x = 0,y=0), mapping = aes(x = x,y=y)) + geom_vline(xintercept = 0) + geom_hline(yintercept = 0) + xlim(xmin,xmax) + xlab("Eixo x") + ylab("Eixo y")
+    p <- p + stat_function(fun = func, col = "red")
     
     plot_vector <<- list(p)
     
     for(i in 1:length(pointx)){
       p <- p + geom_point(x=pointx[i],y= pointy[i], col="blue", pch = 1)
-      p1 <- p1 + geom_point(x=pointx[i],y= pointy[i], col="blue", pch = 1)
     }
     
     if(env_indices){
       for(i in 1:length(pointx)){
         p <- p + annotate("text", label=toString(i),pointx[i],pointy[i], col="blue")
-        p1 <- p1 + annotate("text", label=toString(i),pointx[i],pointy[i], col="blue")
       }
     }
     if(env_linvt){
       for(i in 1:length(pointx)){
         p <- p + geom_segment(x=pointx[i],xend=pointx[i],y=0,yend= pointy[i], col = "gray48",linetype='dashed')
-        p1 <- p1 + geom_segment(x=pointx[i],xend=pointx[i],y=0,yend= pointy[i], col = "gray48",linetype='dashed')
       }
     }
     
@@ -113,7 +110,6 @@ trapezios<- function(env_funcao,env_interv_integra,env_divisoes,env_pintar,env_l
       if(i!=(div+1)){
         plot_vector[[i+2]] <<- plot_vector[[i+1]] + geom_segment(x=pointx[i],xend=pointx[i+1],y=pointy[i],yend=pointy[i+1])
         p <- plot_vector[[i+2]]
-        p1 <- p1 + geom_segment(x=pointx[i],xend=pointx[i+1],y=pointy[i],yend=pointy[i+1])
       }
     }
     
