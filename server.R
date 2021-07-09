@@ -2,6 +2,7 @@ library(shiny)
 library(shinyjs)
 library(plotly)
 library(ggplot2)
+library(stringr)
 
 server <- function(session,input,output){
   ### Inicia o timer com 1 seg
@@ -14,6 +15,7 @@ server <- function(session,input,output){
   
   source("./funcoes/popup.R",encoding = "utf-8")
   source("listas.R",encoding = "utf-8")
+  source("./funcoes/test_inputs.R",encoding = "utf-8")
   source("./metodos/Bissecao.R",encoding = "utf-8")
   source("./metodos/newton_raphson.R",encoding = "utf-8")
   source("./metodos/falsa_posicao.R",encoding = "utf-8")
@@ -48,111 +50,112 @@ server <- function(session,input,output){
       }
     }
   })
-  
   ### Ao clicar no botao, roda o metodo e ativa o timer
   observeEvent(input$button,{
-    if(input$input_veloc_anim == ''){
-      clock <<- reactiveTimer(300)
-      timer <<- reactiveValues(inc=0, timer=clock,started=FALSE)
-    }
-    else if (as.numeric(input$input_veloc_anim) < 0.3){
-      clock <<- reactiveTimer(300)
-      timer <<- reactiveValues(inc=0, timer=clock,started=FALSE)
-    }
-    else{
-      clock <<- reactiveTimer(as.numeric(input$input_veloc_anim)*1000)
-      timer <<- reactiveValues(inc=0, timer=clock,started=FALSE)
-    }
-    
-    ### Variáveis globais, usadas para controle.
-    plot_vector <<- NULL
-    value_output <<- NULL
-    error_vector <<- c()
-    
-    if(input$tipo=="tipo_raiz"){
-      if(input$metodo=="Bis"){
-        bissection(input$input_funcao,
-                   input$input_pontos,
-                   input$input_decimais,
-                   input$input_iteracoes,
-                   TRUE,
-                   TRUE)
-      }
-      else if (input$metodo=="Fal_Pos"){
-        falsa(input$input_funcao,
-              input$input_pontos,
-              input$input_decimais,
-              input$input_iteracoes,
-              TRUE,
-              TRUE)
-      }
-      else if(input$metodo=="New_Rap"){
-        newtonraphson(input$input_funcao,
-                      input$input_x0,
-                      input$input_intervalo,
-                      input$input_decimais,
-                      input$input_iteracoes,
-                      TRUE,
-                      TRUE,
-                      TRUE)
+    test_inputs(input$metodo,input)
+    if(is.null(error_vector)){
+      if (as.numeric(input$input_veloc_anim) < 0.3){
+        clock <<- reactiveTimer(300)
+        timer <<- reactiveValues(inc=0, timer=clock,started=FALSE)
       }
       else{
-        secante(input$input_funcao,
+        clock <<- reactiveTimer(as.numeric(input$input_veloc_anim)*1000)
+        timer <<- reactiveValues(inc=0, timer=clock,started=FALSE)
+      }
+      
+      ### Variáveis globais, usadas para controle.
+      plot_vector <<- NULL
+      value_output <<- NULL
+      error_vector <<- c()
+      
+      if(input$tipo=="tipo_raiz"){
+        if(input$metodo=="Bis"){
+          bissection(input$input_funcao,
+                     input$input_pontos,
+                     input$input_decimais,
+                     input$input_iteracoes,
+                     TRUE,
+                     TRUE)
+        }
+        else if (input$metodo=="Fal_Pos"){
+          falsa(input$input_funcao,
                 input$input_pontos,
-                input$input_iteracoes,
                 input$input_decimais,
-                TRUE,
+                input$input_iteracoes,
                 TRUE,
                 TRUE)
+        }
+        else if(input$metodo=="New_Rap"){
+          newtonraphson(input$input_funcao,
+                        input$input_x0,
+                        input$input_intervalo,
+                        input$input_decimais,
+                        input$input_iteracoes,
+                        TRUE,
+                        TRUE,
+                        TRUE)
+        }
+        else{
+          secante(input$input_funcao,
+                  input$input_pontos,
+                  input$input_iteracoes,
+                  input$input_decimais,
+                  TRUE,
+                  TRUE,
+                  TRUE)
+        }
       }
-    }
-    else if(input$tipo=="tipo_interpo"){
-      if(input$metodo=="Pol_fun"){
-        inter_funcao(input$input_ponto_aprox,
-                     input$input_pontos_x,
-                     input$input_funcao,
-                     TRUE,
-                     TRUE)
-      }
-      else if(input$metodo=="Pol_pon"){
-        inter_pontos(input$input_ponto_aprox,
-                     input$input_pontos_x,
-                     input$input_pontos_y,
-                     TRUE,
-                     TRUE)
+      else if(input$tipo=="tipo_interpo"){
+        if(input$metodo=="Pol_fun"){
+          inter_funcao(input$input_ponto_aprox,
+                       input$input_pontos_x,
+                       input$input_funcao,
+                       TRUE,
+                       TRUE)
+        }
+        else if(input$metodo=="Pol_pon"){
+          inter_pontos(input$input_ponto_aprox,
+                       input$input_pontos_x,
+                       input$input_pontos_y,
+                       TRUE,
+                       TRUE)
+        }
+        else{
+          taylor(input$input_funcao,
+                 input$input_ponto_input,
+                 input$input_ponto_aprox,
+                 #TODO: Colocar como input (gráfico)
+                 env_int_plot = '-6 6',
+                 input$input_graus)
+        }
       }
       else{
-        taylor(input$input_funcao,
-               input$input_ponto_input,
-               input$input_ponto_aprox,
-               #TODO: Colocar como input (gráfico)
-               env_int_plot = '-6 6',
-               input$input_graus)
-      }
-    }
-    else{
-      if(input$metodo=="Tra"){
-        trapezios(input$input_funcao,
+        if(input$metodo=="Tra"){
+          trapezios(input$input_funcao,
+                    input$input_interv_integra,
+                    input$input_divisoes,
+                    TRUE,
+                    TRUE,
+                    TRUE)
+        }
+        else{
+          simpson(input$input_funcao,
                   input$input_interv_integra,
                   input$input_divisoes,
                   TRUE,
                   TRUE,
                   TRUE)
+        }
+      }
+      if(is.null(error_vector)){
+        timer$started <- TRUE
       }
       else{
-        simpson(input$input_funcao,
-                input$input_interv_integra,
-                input$input_divisoes,
-                TRUE,
-                TRUE,
-                TRUE)
+        timer$started <- FALSE
+        popup_erro(error_vector)
       }
     }
-    if(is.null(error_vector)){
-      timer$started <- TRUE
-    }
     else{
-      timer$started <- FALSE
       popup_erro(error_vector)
     }
   })
