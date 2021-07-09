@@ -120,7 +120,7 @@ trapezios<- function(env_funcao,env_interv_integra,env_divisoes,env_pintar,env_l
     if(env_pintar){
       for(i in 1:div){
         shape <- data.frame(x=c(pointx[i],pointx[i],pointx[i+1],pointx[i+1]),y=c(0,pointy[i],pointy[i+1],0)) 
-        p <- p + geom_polygon(data=shape,fill='skyblue')
+        p <- p + geom_polygon(data=shape,fill='skyblue',alpha=0.7)
       }
       
       for (i in 1:(div+1)){
@@ -135,6 +135,7 @@ trapezios<- function(env_funcao,env_interv_integra,env_divisoes,env_pintar,env_l
         }
       }
     }
+    #TODO: Replotar a curva por cima
     plot_vector[[div+3]] <<- p + stat_function(fun = func_replot, col = "red")
     
     value_output <<- list()

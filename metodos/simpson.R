@@ -106,10 +106,11 @@ simpson<- function(env_funcao,env_interv_integra,env_divisoes,env_linvt,env_indi
     }
     
     plot_vector[[2]] <<- p
-    
     Fpoli<- c()
     
     j <- 3
+    area_vector <- list()
+    p_area <- p
     for(i in seq(from=1, to=(div-1), by=2)){
       Amatr <- array(c((pointx[i])^2,(pointx[i+1])^2,(pointx[i+2])^2,pointx[i],pointx[i+1],pointx[i+2],1,1,1),c(3,3))
       Ypon <- c(pointy[i],pointy[i+1],pointy[i+2])
@@ -119,25 +120,18 @@ simpson<- function(env_funcao,env_interv_integra,env_divisoes,env_linvt,env_indi
       polifun <- paste("polifun <- function(x){",Fpoli[i],"}")
       eval(parse(text=polifun))
       p <- p + stat_function(fun = polifun,xlim=c(pointx[i]-h*0.15,pointx[i+2]+h*0.15))
+      p_area <- p_area + 
+                stat_function(fun=polifun,xlim=c(pointx[i],pointx[i+2]),geom='area',alpha=0.7,fill='skyblue') +
+                stat_function(fun = polifun,xlim=c(pointx[i]-h*0.15,pointx[i+2]+h*0.15)) 
+      
       plot_vector[[j]] <<- p
       j <- j + 1
     }
     
     #TODO: Implementar pintar a área
-    #========= Pintar a area ============#
-    # if(svalue(pint)){
-    #   #Sys.sleep(speed)
-    #   for(i in seq(from=1, to=(div-1), by=2)){
-    #     polifun <- paste("polifun <- function(x){",Fpoli[i],"}")
-    #     eval(parse(text=polifun))
-    #     xini <- pointx[i] #=== x inicial ===
-    #     xfin <- pointx[i+2] #==== x final
-    #     cord.x <- c(xini,seq(xini,xfin,0.01),xfin)
-    #     cord.y <- c(0,polifun(seq(xini,xfin,0.01)),0)
-    #     polygon(cord.x,cord.y, col="skyblue", border = "skyblue")
-    #     curve(polifun , (pointx[i]-h*0.15), (pointx[i+2]+h*0.15),type="l", add=TRUE)
-    #   }
-    # }
+    if(env_pintar){
+      plot_vector[[j]] <<- p_area + stat_function(fun = func, col = "red")
+    }
     #Plot da funcao de novo, para ficar a cima dos outros plots
     # curve(func, xmin -1, xmax +1, col = "red", xlab="eixo x", ylab="eixo y", lwd=2, add=TRUE)
     # abline(h=0, lty=2)
