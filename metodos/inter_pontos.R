@@ -20,7 +20,7 @@ inter_pontos<- function(env_ponto_aprox,env_pontos_x,env_pontos_y,env_indices,en
   for(i in 1:contvaly){
     valy[i] <- as.numeric(valyaux[i])
   }
-  
+  ### Erros
   if(contvalx!=contvaly){
     error_vector <<- c(error_vector,'A quantidade de pontos em x e y não são iguais')
   }

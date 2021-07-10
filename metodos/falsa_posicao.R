@@ -7,10 +7,13 @@ falsa <- function(env_funcao,env_pontos,env_decimais,env_iteracoes,env_indices,e
   ### Valores de entrada
   f<-env_funcao
   pointsentr<-env_pontos
-  s<-as.numeric(env_decimais)
+  
+  s<-round(abs(as.numeric(env_decimais)))
+  if(s==0||s>5){s<-5}
   stp <- 10^(-s)
-  stpint <- as.numeric(env_iteracoes)
-  if(is.na(stpint)) stpint <- 999
+  
+  stpint <- round(abs(as.numeric(env_iteracoes)))
+  if(stpint==0 || stpint>15){stpint <- 15}
   
   ### pegar os valores separados em x
   valxaux <- as.list(strsplit(pointsentr," ")[[1]])
@@ -24,17 +27,11 @@ falsa <- function(env_funcao,env_pontos,env_decimais,env_iteracoes,env_indices,e
   fa <- func(a0)
   fb <- func(b0)
   
-  # Vetores para o plot
-  a_k <- c()
-  b_k <- c()
-  fa_k <- c()
-  fb_k <- c()
-  m_k <- c()
-  
-  # Contador de indices para while
-  cont <- 1
-  
   ### Garantindo que os pre-requisitos estao sendo seguidos exibindo janela de erro
+  ### Erro caso a quantidade de pontos de entrada seja diferente de 2
+  if(contval!=2){
+    error_vector <<- c(error_vector,'Erro nos pontos de entrada')
+  }
   # Erro caso o extremo inferior ja satisfaca o criterio de parada
   if(abs(fa)<stp){
     error_vector <<- c(error_vector,'O ponto \'a\' já satisfaz o critério de parada')
@@ -51,6 +48,14 @@ falsa <- function(env_funcao,env_pontos,env_decimais,env_iteracoes,env_indices,e
   }
   
   else if(is.null(error_vector)){
+    # Vetores para o plot
+    a_k <- c()
+    b_k <- c()
+    fa_k <- c()
+    fb_k <- c()
+    m_k <- c()
+    # Contador de indices para while
+    cont <- 1
     whilevar <- -1
     while(whilevar == -1){
       ### Atribuicao dos valores aos vetores

@@ -5,7 +5,7 @@ trapezios<- function(env_funcao,env_interv_integra,env_divisoes,env_pintar,env_l
   ### Valores de entrada
   f<-env_funcao
   interentr<-env_interv_integra
-  div<- abs(as.numeric(env_divisoes)) # Quantidade de divisões
+  div<- round(abs(as.numeric(env_divisoes)))
   
   interaux <- as.list(strsplit(interentr," ")[[1]])
   limitx <- c()
@@ -18,7 +18,10 @@ trapezios<- function(env_funcao,env_interv_integra,env_divisoes,env_pintar,env_l
   if(div==0){
     error_vector <<- c(error_vector,'Numero de divisões deve ser maior ou igual a 1')
   }
-  
+  ### Erro caso a quantidade de divisões seja 0
+  if(limitx[1]==limitx[2]){
+    error_vector <<- c(error_vector,'O intervalo dado não é válido')
+  }
   else if(is.null(error_vector)){
     func <- paste("func <- function(x){",f,"}")
     func_replot <- paste("func_replot <- function(x){",f,"+0.1-0.1}")

@@ -7,17 +7,18 @@ newtonraphson<- function(env_funcao,env_x0,env_intervalo,env_decimais,env_iterac
   x0<-as.numeric(env_x0)
   pointsentr<-env_intervalo  
   
-  s<-as.numeric(env_decimais)
+  s<-round(abs(as.numeric(env_decimais)))
+  if(s==0||s>5){s<-5}
   stp <- 10^(-s)
-  stpint <- as.numeric(env_iteracoes)
-  if(is.na(stpint)) stpint <- 999 #numero ilimitado de itera??es
+  
+  stpint <- round(abs(as.numeric(env_iteracoes)))
+  if(stpint==0 || stpint>15){stpint <- 15}
   
   
   #=== pegar os valores separados em x
   #
   valxaux <- as.list(strsplit(pointsentr," ")[[1]])
-  contval <- length(valxaux) # contador da quantidade de valores de entrada
-  #intervalo
+  contval <- length(valxaux)
   a0 <-as.numeric(valxaux[1])
   b0 <- as.numeric(valxaux[2])
   
@@ -40,34 +41,33 @@ newtonraphson<- function(env_funcao,env_x0,env_intervalo,env_decimais,env_iterac
   if(Dev_x0 == 0){
     error_vector <<- c(error_vector,'A derivada do ponto \'x0\' é igual a 0 ')
   }
-  else{
-    # Criando vetores para o plot
-    x_k <- c()
-    fx_k <- c()
-    
-    # Preenchendo os vetores
-    x_k[1] <- x0
-    x_k[2] <- x0 - f_x0/Dev_x0
-    fx_k[1] <- f_x0
-    fx_k[2] <- func(x_k[2])
-  }
   
-  # contador de indices para while
-  cont <- 2
-  
+  ### Garantindo que os pre-requisitos estao sendo seguidos exibindo janela de erro
   # Erro caso o ponto dado ja satisfaz o criterio de parada
   if(abs(func(x0))<stp){
     error_vector <<- c(error_vector,'O ponto \'x0\' já satisfaz o critério de parada')
   }
   else if(is.null(error_vector)){
+    # Criando vetores para o plot
+    x_k <- c()
+    fx_k <- c()
+    # Preenchendo os vetores
+    x_k[1] <- x0
+    x_k[2] <- x0 - f_x0/Dev_x0
+    fx_k[1] <- f_x0
+    fx_k[2] <- func(x_k[2])
+    
+    # contador de indices para while
+    cont <- 2
     whilevar <- -1
+    
     while(whilevar == -1){
       cont <- cont + 1
-      #TODO: implementar fora de garantir que não faça caso DevFunc(x_k[cont-1] seja igual a zero (ou tenda -> validar)
+      #TODO: implementar forma de garantir que não faça caso DevFunc(x_k[cont-1] seja igual a zero (ou tenda -> validar)
       x_k[cont] <- (x_k[cont-1] - ((func(x_k[cont-1]))/(DevFunc(x_k[cont-1]))))
       fx_k[cont] <- func(x_k[cont])
       
-      if(cont>=stpint){whilevar <-1}
+      if(cont>=stpint){whilevar <- 1}
       if(abs(x_k[cont]-x_k[cont-1])<stp){whilevar <- 1}
       if(abs(fx_k[cont])<stp){whilevar <- 1}
     }

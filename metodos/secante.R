@@ -33,34 +33,35 @@ secante<- function(env_funcao,env_pontos,env_iteracoes,env_decimais,env_indices,
   fx_k[1] <- f_x0
   fx_k[2] <- f_x1
   
-  # contador de indices para while
-  cont <- 2
   
-  whileaux <- -1 #teste para fazer ate chegar ao erro desejado
   
   ### Erro caso o ponto 'a' dado ja satisfaz o criterio de parada
   if(abs(f_x0)<stp){ 
-    error_vector <<- c(error_vector,'O ponto \'a\' já satisfaz o critério de parada')
+    error_vector <<- c(error_vector,'O ponto \'x0\' já satisfaz o critério de parada')
   }
   ### Erro caso o ponto 'b' dado ja satisfaz o criterio de parada
   if(abs(f_x1)<stp){ 
-    error_vector <<- c(error_vector,'O ponto \'b\' já satisfaz o critério de parada')
+    error_vector <<- c(error_vector,'O ponto \'x1\' já satisfaz o critério de parada')
   }
   ### Erro para garantir que os extremos tem sinais diferentes
-  if((f_x0*f_x1)>0){ 
-    error_vector <<- c(error_vector,'f(a)*f(b) > 0; Portanto, não é possível garantir que há uma raiz neste intervalo')
+  if(abs(x0-x1)>0){ 
+    error_vector <<- c(error_vector,'|x0-x1| > já satisfaz o critério de parada')
   }
   
   #===Comeco do metodo em si
   #
   else if(is.null(error_vector)){
+    # contador de indices para while
+    cont <- 2
+    
+    whileaux <- -1 #teste para fazer ate chegar ao erro desejado
     while(whileaux == -1){
       cont <- cont + 1
       x_k[cont] <- (x_k[cont-1] - ((fx_k[cont-1])*((x_k[cont-1] - x_k[cont-2])/(fx_k[cont-1] - fx_k[cont-2]))))
       fx_k[cont] <- func(x_k[cont])
       
       Errosec <-((x_k[cont]-x_k[cont-1])/(x_k[cont]))
-      if(abs(Errosec)<stp){whileaux <- 1}
+      if(abs(Errosec*x_k[cont])<stp){whileaux <- 1}
       if(cont>stpcont){whileaux <- 1}
       if(abs(fx_k[cont])<stp){whileaux <- 1}
     }
