@@ -19,6 +19,7 @@ lista_entradas <- list("input_funcao",
                        "input_interv_integra",
                        "input_graus")
 
+lista_og <- list('g_indices','g_lh','g_sc','g_lv','g_ltg','g_pintar')
 # lista com os tipos de metodos
 nomes_tipos <- list("tipo_raiz","tipo_interpo",'tipo_integra')
 
@@ -109,24 +110,23 @@ names(entrada_metodo) <- metodos
 # Opções gráficas de cada método
 grafico_metodo <- list(
   # Bisseção
-  c("graph_indices",
-    "graph_lv"),
+  c('g_indices','g_lh'),
   # Falsa Posição
-  c(),
+  c('g_indices','g_sc'),
   # Newton Rapson
-  c(),
+  c('g_indices','g_lv','g_ltg'),
   # Secante
-  c(),
+  c('g_indices','g_lv','g_sc'),
   # Pol. de Lagrange por função
-  c(),
+  c('g_indices','g_lv'),
   # Pol. de Lagrange por pontos
-  c(),
+  c('g_indices','g_lv'),
   # Taylor
   c(),
   # Trapézios
-  c(),
+  c('g_pintar','g_lv','g_indices'),
   # Simpson
-  c()
+  c('g_lv','g_indices','g_pintar')
   
 )
 names(grafico_metodo) <- metodos

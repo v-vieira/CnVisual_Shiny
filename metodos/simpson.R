@@ -1,4 +1,4 @@
-simpson<- function(env_funcao,env_interv_integra_a,env_interv_integra_b,env_divisoes,env_linvt,env_indices,env_pintar){
+simpson<- function(env_funcao,env_interv_integra_a,env_interv_integra_b,env_divisoes,g_lv,g_indices,g_pintar){
   ### vetor de erro
   error_vector <<-c()
   
@@ -74,13 +74,13 @@ simpson<- function(env_funcao,env_interv_integra_a,env_interv_integra_b,env_divi
     
     for (i in 1:(m+1)){
       ### Caso seja marcado os indicies dos pontos no checkbox
-      if(env_linvt){
+      if(g_lv){
         p <- p + geom_segment(x=pointx[i],xend=pointx[i],y=0,yend=pointy[i],col='azure3',linetype='dashed')
       }
       p <- p + geom_point(x=pointx[i],y=pointy[i],col = 'blue',pch=1)
       
       ### Caso seja marcado os indicies dos pontos no checkbox
-      if(env_indices){ 
+      if(g_indices){ 
         p <- p + annotate("text",label=toString(i-1),x=pointx[i],y=pointy[i],col='blue')
       }
       
@@ -110,7 +110,7 @@ simpson<- function(env_funcao,env_interv_integra_a,env_interv_integra_b,env_divi
     }
     
     #TODO: Implementar pintar a área
-    if(env_pintar){
+    if(g_pintar){
       plot_vector[[j]] <<- p_area + stat_function(fun = func_replot, col = "red")
     }
     #Plot da funcao de novo, para ficar a cima dos outros plots

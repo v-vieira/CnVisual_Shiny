@@ -1,4 +1,4 @@
-inter_pontos<- function(env_ponto_aprox,env_pontos_x,env_pontos_y,env_indices,env_linvt){
+inter_pontos<- function(env_ponto_aprox,env_pontos_x,env_pontos_y,g_indices,g_lv){
   ### vetor de erro
   error_vector <<-c()
   
@@ -61,13 +61,13 @@ inter_pontos<- function(env_ponto_aprox,env_pontos_x,env_pontos_y,env_indices,en
     }
     
     ### Plot dos indices
-    if(env_indices){
+    if(g_indices){
       for(i in 1:contval){
         p <- p + annotate("text",label=toString(i),x=valx[i],y=valy[i],col='blue')
       }
     }
     
-    if(env_linvt){
+    if(g_lv){
       for(i in 1:contval){
         p <- p + geom_segment(x=valx[i],xend=valx[i],y=0,yend=valy[i],col="azure4",linetype="dashed")
       }
@@ -95,7 +95,7 @@ inter_pontos<- function(env_ponto_aprox,env_pontos_x,env_pontos_y,env_indices,en
     p <- plot_vector[[2]] + geom_segment(x=valaprm,xend=valaprm,y=0,yend=Valaprmy, col="azure4", linetype="dashed") + geom_point(x=valaprm,y=Valaprmy,col="chartreuse4",pch=9)
     
     ### Plot dos indices
-    if(env_indices){
+    if(g_indices){
       p <- p + annotate("text",label="Valaprmy",valaprm,Valaprmy, col="chartreuse4")
     }
     

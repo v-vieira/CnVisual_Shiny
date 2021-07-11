@@ -109,8 +109,7 @@ input_divisoes <- numericInput(
   max = 14,
   value = 2
 )
-  
-  
+
 input_veloc_anim <- numericInput(
   inputId="input_veloc_anim",
   label = "Velocidade de animação",
@@ -151,4 +150,29 @@ input_graus <- checkboxGroupInput(
               "Grau 3"=3,
               "Grau 4"=4,
               "Grau 5"=5)
+)
+
+opcoes_grapicas <- tags$div(
+  id='opcoes_grapicas',
+  tags$b("Opções Gráficas"),
+  fluidRow(
+    checkboxInput(inputId = 'g_indices',
+                  label='Índices',
+                  value=TRUE),
+    checkboxInput(inputId = 'g_lh',
+                  label='Linha Horizontal',
+                  value=TRUE),
+    checkboxInput(inputId = 'g_sc',
+                  label='Linha Secante',
+                  value=TRUE),
+    checkboxInput(inputId = 'g_lv',
+                  label='Linha Vertical',
+                  value=TRUE),
+    checkboxInput(inputId = 'g_ltg',
+                  label='Linha Tangente',
+                  value=TRUE),
+    checkboxInput(inputId = 'g_pintar',
+                  label='Pintar Área Gráfica',
+                  value=TRUE)
+  )
 )

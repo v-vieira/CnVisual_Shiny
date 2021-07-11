@@ -1,4 +1,4 @@
-inter_funcao <- function(env_ponto_aprox,env_pontos_x,env_funcao,env_indices,env_linvt){
+inter_funcao <- function(env_ponto_aprox,env_pontos_x,env_funcao,g_indices,g_lv){
   ### vetor de erro
   error_vector <<-c()
   
@@ -65,14 +65,14 @@ inter_funcao <- function(env_ponto_aprox,env_pontos_x,env_funcao,env_indices,env
     }
     
     ### Plot dos indices
-    if(env_indices){
+    if(g_indices){
       index <-c(0:(contval-1))
       for(i in 1:contval){
         p <- p + annotate("text",label= index[i],x=valx[i],y=valy[i],col='blue')
       }
     }
     ### Plot das linhas verticais
-    if(env_linvt){
+    if(g_lv){
       for (i in 1:(contval)){
         p <- p + geom_segment(x=valx[i],xend=valx[i],y=0,yend=valy[i], col= "azure4", linetype='dashed')
       }

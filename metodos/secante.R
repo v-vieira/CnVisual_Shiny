@@ -1,4 +1,4 @@
-secante<- function(env_funcao,env_pontos_1,env_pontos_2,env_iteracoes,env_decimais,env_indices,env_linvt,env_linsec){
+secante<- function(env_funcao,env_pontos_1,env_pontos_2,env_iteracoes,env_decimais,g_indices,g_lv,g_sc){
   ### vetor de erro
   error_vector <<-c()
   
@@ -70,13 +70,13 @@ secante<- function(env_funcao,env_pontos_1,env_pontos_2,env_iteracoes,env_decima
     
     plot_vector <<- list(p)
     
-    if(env_indices){
+    if(g_indices){
       p <- p + annotate("text",label="0",x=x_k[1],y=3,col="blue")
     }
     p <- p + geom_point(x=x_k[1],y= 0, col="blue", pch = 1)
     plot_vector[[2]] <<- p
     
-    if(env_linvt){
+    if(g_lv){
       p <- p + geom_segment(x=x_k[1],xend=x_k[1],y=0,yend=fx_k[1],col= "azure4",linetype="dashed")
     }
     plot_vector[[3]] <<- p + geom_point(x=x_k[1],y=fx_k[1],col="green",pch=1)
@@ -85,17 +85,17 @@ secante<- function(env_funcao,env_pontos_1,env_pontos_2,env_iteracoes,env_decima
       k <- 4 + (i-2)*5
       plot_vector[[k]] <<- plot_vector[[k-1]] + geom_point(x=x_k[i],y=0, col="blue", pch = 1)
       
-      if(env_linvt){
+      if(g_lv){
         plot_vector[[k+1]] <<- plot_vector[[k]] + geom_segment(x=x_k[i],xend=x_k[i],y=0,yend=fx_k[i], col= "azure4", lty=2)
       }
       
       plot_vector[[k+2]] <<- plot_vector[[k+1]] + geom_point(x=x_k[i],y=fx_k[i], col="green", pch=1)
       
-      if(env_indices){
+      if(g_indices){
         plot_vector[[k+3]] <<- plot_vector[[k+2]] + annotate("text",label=i-1,x=x_k[i],y=3,col="blue")
       }
       
-      if(env_linsec){
+      if(g_sc){
         if((fx_k[i-1]*fx_k[i])<0)
           p <- geom_segment(x=x_k[i-1],xend=x_k[i],y=fx_k[i-1],yend=fx_k[i],col = "yellow")
         else

@@ -49,6 +49,14 @@ server <- function(session,input,output){
         shinyjs::hideElement(id=value)
       }
     }
+    for (value in lista_og){
+      if (value %in% grafico_metodo[[input$metodo]]){
+        shinyjs::showElement(id=value)
+      }
+      else{
+        shinyjs::hideElement(id=value)
+      }
+    }
   })
   ### Ao clicar no botao, roda o metodo e ativa o timer
   observeEvent(input$button,{
@@ -189,7 +197,9 @@ server <- function(session,input,output){
   observeEvent(input$s2,{timer$started<-FALSE})
   observeEvent(input$s3, {
     timer$inc<-1
-    timer$started<-TRUE})
+    timer$started<-TRUE
+    }
+  )
   print('===== FIM UI =====')
   print(mem_used())
 }

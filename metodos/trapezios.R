@@ -1,4 +1,4 @@
-trapezios<- function(env_funcao,env_interv_integra_a,env_interv_integra_b,env_divisoes,env_pintar,env_linvt,env_indices){
+trapezios<- function(env_funcao,env_interv_integra_a,env_interv_integra_b,env_divisoes,g_pintar,g_lv,g_indices){
   ### vetor de erro
   error_vector <<-c()
   
@@ -64,12 +64,12 @@ trapezios<- function(env_funcao,env_interv_integra_a,env_interv_integra_b,env_di
       p <- p + geom_point(x=pointx[i],y= pointy[i], col="blue", pch = 1)
     }
     
-    if(env_indices){
+    if(g_indices){
       for(i in 1:length(pointx)){
         p <- p + annotate("text", label=toString(i-1),pointx[i],pointy[i], col="blue")
       }
     }
-    if(env_linvt){
+    if(g_lv){
       for(i in 1:length(pointx)){
         p <- p + geom_segment(x=pointx[i],xend=pointx[i],y=0,yend= pointy[i], col = "gray48",linetype='dashed')
       }
@@ -84,7 +84,7 @@ trapezios<- function(env_funcao,env_interv_integra_a,env_interv_integra_b,env_di
       }
     }
     
-    if(env_pintar){
+    if(g_pintar){
       for(i in 1:m){
         shape <- data.frame(x=c(pointx[i],pointx[i],pointx[i+1],pointx[i+1]),y=c(0,pointy[i],pointy[i+1],0)) 
         p <- p + geom_polygon(data=shape,fill='skyblue',alpha=0.7)
@@ -96,7 +96,7 @@ trapezios<- function(env_funcao,env_interv_integra_a,env_interv_integra_b,env_di
         }
       }
       
-      if(env_linvt){
+      if(g_lv){
         for(i in 1:length(pointx)){
           p <- p + geom_segment(x=pointx[i],xend=pointx[i],y=0,yend=pointy[i], col = "gray48",linetype='dashed')
         }

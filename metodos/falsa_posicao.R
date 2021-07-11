@@ -1,4 +1,4 @@
-falsa <- function(env_funcao,env_pontos_1,env_pontos_2,env_decimais,env_iteracoes,env_indices,env_linsc){
+falsa <- function(env_funcao,env_pontos_1,env_pontos_2,env_decimais,env_iteracoes,g_indices,g_sc){
   ### vetor de erro
   error_vector <<-c()
   
@@ -96,7 +96,7 @@ falsa <- function(env_funcao,env_pontos_1,env_pontos_2,env_decimais,env_iteracoe
       
       p <- plot_vector[[k-1]] + geom_point(x = m_k[i], y = 0, col="blue", pch = 1)
       
-      if(env_indices){
+      if(g_indices){
         index <-c(0:(i-1))
         p <- p + annotate("text", label = toString(i),x= m_k[i],y=3 )
       }
@@ -104,7 +104,7 @@ falsa <- function(env_funcao,env_pontos_1,env_pontos_2,env_decimais,env_iteracoe
       
       plot_vector[[k+1]] <<- plot_vector[[k]] + geom_segment(x=a_k[i],xend=a_k[i],y=0,yend=fa_k[i],col= "azure4",linetype="dashed")
       
-      if(env_linsc){
+      if(g_sc){
         plot_vector[[k+2]] <<- plot_vector[[k+1]] + geom_segment(x=a_k[i],xend=b_k[i],y=fa_k[i],yend=fb_k[i], col="yellow") #lwd = 1.2
       }
     }
