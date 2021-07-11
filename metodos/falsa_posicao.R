@@ -1,12 +1,9 @@
-library(ggplot2)
-library(plotly)
-falsa <- function(env_funcao,env_pontos,env_decimais,env_iteracoes,env_indices,env_linsc){
+falsa <- function(env_funcao,env_pontos_1,env_pontos_2,env_decimais,env_iteracoes,env_indices,env_linsc){
   ### vetor de erro
   error_vector <<-c()
   
   ### Valores de entrada
   f<-env_funcao
-  pointsentr<-env_pontos
   
   s<-round(abs(as.numeric(env_decimais)))
   if(s==0||s>5){s<-5}
@@ -16,10 +13,9 @@ falsa <- function(env_funcao,env_pontos,env_decimais,env_iteracoes,env_indices,e
   if(stpint==0 || stpint>15){stpint <- 15}
   
   ### pegar os valores separados em x
-  valxaux <- as.list(strsplit(pointsentr," ")[[1]])
-  contval <- length(valxaux)
-  a0 <-as.numeric(valxaux[1])
-  b0 <- as.numeric(valxaux[2])
+  input_points <- c(env_pontos_1,env_pontos_2)
+  a0 <- min(env_pontos_1)
+  b0 <- max(env_pontos_2)
   
   func <- paste("func <- function(x){",f,"}")
   eval(parse(text=func))
@@ -28,10 +24,6 @@ falsa <- function(env_funcao,env_pontos,env_decimais,env_iteracoes,env_indices,e
   fb <- func(b0)
   
   ### Garantindo que os pre-requisitos estao sendo seguidos exibindo janela de erro
-  ### Erro caso a quantidade de pontos de entrada seja diferente de 2
-  if(contval!=2){
-    error_vector <<- c(error_vector,'Erro nos pontos de entrada')
-  }
   # Erro caso o extremo inferior ja satisfaca o criterio de parada
   if(abs(fa)<stp){
     error_vector <<- c(error_vector,'O ponto \'a\' já satisfaz o critério de parada')

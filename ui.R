@@ -2,7 +2,10 @@ library(shiny)
 library(shinyjs)
 library(plotly)
 library(shinyalert)
+library(pryr)
 
+print('===== INICIO UI =====')
+print(mem_used())
 # Importação dos espaços de inputs
 source("entradas.R",encoding = "utf-8")
 
@@ -31,20 +34,20 @@ ui <- fluidPage(
       
       wellPanel(id="Entradas",    # Painel com todas as entradas, começam todas escondidas e mostram de acordo com a seleção do metodo
         shinyjs::hidden(input_funcao),
-        shinyjs::hidden(input_pontos),
+        shinyjs::hidden(input_pontos_ab),
+        shinyjs::hidden(input_pontos_sec),
         shinyjs::hidden(input_x0),
         shinyjs::hidden(input_intervalo),
-        shinyjs::hidden(input_decimais),
-        shinyjs::hidden(input_iteracoes),
-        shinyjs::hidden(input_veloc_anim),
         shinyjs::hidden(input_pontos_x),
         shinyjs::hidden(input_pontos_y),
-        shinyjs::hidden(input_ponto_aprox),
         shinyjs::hidden(input_ponto_input),
-        shinyjs::hidden(input_lim_x),
+        shinyjs::hidden(input_ponto_aprox),
         shinyjs::hidden(input_divisoes),
         shinyjs::hidden(input_interv_integra),
-        shinyjs::hidden(input_graus)
+        shinyjs::hidden(input_graus),
+        shinyjs::hidden(input_decimais),
+        shinyjs::hidden(input_iteracoes),
+        shinyjs::hidden(input_veloc_anim)
         ),
       
       actionButton(    # Botão para rodar

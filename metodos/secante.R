@@ -1,10 +1,9 @@
-secante<- function(env_funcao,env_pontos,env_iteracoes,env_decimais,env_indices,env_linvt,env_linsec){
+secante<- function(env_funcao,env_pontos_1,env_pontos_2,env_iteracoes,env_decimais,env_indices,env_linvt,env_linsec){
   ### vetor de erro
   error_vector <<-c()
   
   ### Valores de entrada
   f<-env_funcao
-  initical_point <-env_pontos
   
   stpcont <-as.numeric(env_iteracoes)
   if(is.na(stpcont)){stpcont<-9999}
@@ -12,10 +11,10 @@ secante<- function(env_funcao,env_pontos,env_iteracoes,env_decimais,env_indices,
   s<-as.numeric(env_decimais)
   stp <- 10^(-s)
   
-  valxaux <- as.list(strsplit(initical_point," ")[[1]])
-  contval <- length(valxaux) 
-  x0 <-as.numeric(valxaux[1])
-  x1 <- as.numeric(valxaux[2])
+  # Intervalo
+  input_points <- c(env_pontos_1,env_pontos_2)
+  x0 <- min(env_pontos_1)
+  x1 <- max(env_pontos_2)
   
   func <- paste("func <- function(x){",f,"}") # Criando string de entrada
   eval(parse(text=func))# Transformando o texto salvo na variavel ftext em uma expressao
@@ -35,7 +34,7 @@ secante<- function(env_funcao,env_pontos,env_iteracoes,env_decimais,env_indices,
   
   
   
-  ### Erro caso o ponto 'a' dado ja satisfaz o criterio de parada
+  ### Erro caso o ponto x0 dado ja satisfaz o criterio de parada
   if(abs(f_x0)<stp){ 
     error_vector <<- c(error_vector,'O ponto \'x0\' já satisfaz o critério de parada')
   }
@@ -43,8 +42,8 @@ secante<- function(env_funcao,env_pontos,env_iteracoes,env_decimais,env_indices,
   if(abs(f_x1)<stp){ 
     error_vector <<- c(error_vector,'O ponto \'x1\' já satisfaz o critério de parada')
   }
-  ### Erro para garantir que os extremos tem sinais diferentes
-  if(abs(x0-x1)>0){ 
+  ### Erro caso x1 - x0 já satisfaça o critério de parada
+  else if(abs(x0-x1)<stp){ 
     error_vector <<- c(error_vector,'|x0-x1| > já satisfaz o critério de parada')
   }
   
@@ -93,7 +92,7 @@ secante<- function(env_funcao,env_pontos,env_iteracoes,env_decimais,env_indices,
       plot_vector[[k+2]] <<- plot_vector[[k+1]] + geom_point(x=x_k[i],y=fx_k[i], col="green", pch=1)
       
       if(env_indices){
-        plot_vector[[k+3]] <<- plot_vector[[k+2]] + annotate("text",label=i,x=x_k[i],y=3,col="blue")
+        plot_vector[[k+3]] <<- plot_vector[[k+2]] + annotate("text",label=i-1,x=x_k[i],y=3,col="blue")
       }
       
       if(env_linsec){

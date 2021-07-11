@@ -3,7 +3,8 @@ metodos <- list("Bis","Fal_Pos","New_Rap","Sec","Pol_fun","Pol_pon","Tay","Tra",
 
 # lista com todas as entradas
 lista_entradas <- list("input_funcao",
-                       "input_pontos",
+                       "input_pontos_ab",
+                       "input_pontos_sec",
                        "input_x0",
                        "input_intervalo",
                        "input_decimais",
@@ -14,7 +15,6 @@ lista_entradas <- list("input_funcao",
                        "input_pontos_y",
                        "input_ponto_aprox",
                        "input_ponto_input",
-                       "input_lim_x",
                        "input_divisoes",
                        "input_interv_integra",
                        "input_graus")
@@ -30,13 +30,13 @@ entrada_metodo <- list(
   
   # Bisseção -> OK
   c("input_funcao",
-    "input_pontos",
+    "input_pontos_ab",
     "input_decimais",
     "input_iteracoes",
     "input_veloc_anim"),
   # Falsa Posição -> OK
   c("input_funcao",
-    "input_pontos",
+    "input_pontos_ab",
     "input_decimais",
     "input_iteracoes",
     "input_veloc_anim"),
@@ -49,7 +49,7 @@ entrada_metodo <- list(
     "input_veloc_anim"),
   # Secante -> OK
   c("input_funcao",
-    "input_pontos",
+    "input_pontos_sec",
     "input_decimais",
     "input_iteracoes",
     "input_veloc_anim"),

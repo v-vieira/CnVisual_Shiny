@@ -1,24 +1,21 @@
-bissection <- function(env_funcao,env_pontos,env_decimais,env_iteracoes,g_indices,g_lh){
+bissection <- function(env_funcao,env_pontos_1,env_pontos_2,env_decimais,env_iteracoes,g_indices,g_lh){
   ### vetor de erro
   error_vector <<-c()
   
   ### Valores de entrada
   f<-env_funcao
-  pointsentr<-env_pontos
   
-  s<-round(abs(as.numeric(env_decimais)))
+  s<-round(abs(env_decimais))
   if(s==0||s>5){s<-5}
   stp <- 10^(-s)
   
-  stpint <- round(abs(as.numeric(env_iteracoes)))
+  stpint <- round(abs(env_iteracoes))
   if(stpint==0 || stpint>15){stpint <- 15}
   
-  ### pegar os valores separados em x
-  valxaux <- as.list(strsplit(pointsentr," ")[[1]])
-  contval <- length(valxaux)
   # Intervalo
-  a0 <-as.numeric(valxaux[1])
-  b0 <- as.numeric(valxaux[2])
+  input_points <- c(env_pontos_1,env_pontos_2)
+  a0 <- min(env_pontos_1)
+  b0 <- max(env_pontos_2)
   
   func <- paste("func <- function(x){",f,"}") # Criando string de entrada
   eval(parse(text=func)) # Transformando o texto salvo na variavel ftext em uma expressao
@@ -27,24 +24,19 @@ bissection <- function(env_funcao,env_pontos,env_decimais,env_iteracoes,g_indice
   fb <- func(b0)
 
   ### Garantindo que os pre-requisitos estao sendo seguidos exibindo janela de erro
-  ### Erro caso a quantidade de pontos de entrada seja diferente de 2
-  if(contval!=2){
-    error_vector <<- c(error_vector,'Erro nos pontos de entrada')
-  }
-  
   ### Erro caso o extremo inferior ja satisfaca o criterio de parada
   if(abs(fa)<stp){
-    error_vector <<- c(error_vector,'O ponto \'a\' já satisfaz o critério de parada')
+    error_vector <<- c(error_vector,'O ponto \'a0\' já satisfaz o critério de parada')
   }
   
   ### Erro caso o extremo superior ja satisfaca o criterio de parada
   if(abs(fb)<stp){ 
-    error_vector <<- c(error_vector,'O ponto \'b\' já satisfaz o critério de parada')
+    error_vector <<- c(error_vector,'O ponto \'b0\' já satisfaz o critério de parada')
   }
   
   ### Garantir que o metodo só seja feito caso tenha um numero ímpar de raizes no intervalo dado
   if((fa*fb)>0){
-    error_vector <<- c(error_vector,'f(a)*f(b) > 0; Portanto, não é possível garantir que há uma raiz neste intervalo')
+    error_vector <<- c(error_vector,'f(a0)*f(b0) > 0; Portanto, não é possível garantir que há uma raiz neste intervalo')
   }
   
   else if(is.null(error_vector)){
@@ -78,10 +70,6 @@ bissection <- function(env_funcao,env_pontos,env_decimais,env_iteracoes,g_indice
       if(whilevar== -1) cont<- cont + 1 # Aumentar o indice do contador
     }
     
-    #= Colocar os valores de entrada de volta em a0 e b0
-    a0 <- as.numeric(valxaux[1])
-    b0 <- as.numeric(valxaux[2])
-    
     ### PLOT
     #Pegar os valores maximos e minimos da funcao e forcar um valor minimo e maximo para o plot
     y_min <- optimize(func,interval = c(a_k[1]- 1,b_k[1]+ 1)) #y_min pega o valor que da o minimo em x e o valor em y
@@ -95,13 +83,13 @@ bissection <- function(env_funcao,env_pontos,env_decimais,env_iteracoes,g_indice
     if(abs(y_max) <= 0.1*(absalt)) y_max<- 0.1*(absalt)
     inter_y <- c(y_min,y_min)
     
-    p <- ggplot(data = data.frame(x = 0), mapping = aes(x = x)) 
-    p <- p + stat_function(fun = func, col = "red") + geom_vline(xintercept = 0) + geom_hline(yintercept = 0)
+    p <- ggplot(data = data.frame(x = 0), mapping = aes(x = x)) + geom_vline(xintercept = 0) + geom_hline(yintercept = 0)
+    p <- p + stat_function(fun = func, col = "red")
     # Salvar o plot na lista
     plot_vector <<- list(p)
     
     ### Plot dos pontos a e b sobre o eixo x
-    plot_vector[[2]] <<- p + geom_point(x=a_k[1],y=0, col="blue", pch = 1) + geom_point(x=b_k[1],y= 0, col="blue", pch = 1)+annotate("text",label="a",x=a_k[1],y=3)+annotate("text",label="b",x=b_k[1],y=3)
+    plot_vector[[2]] <<- p + geom_point(x=a_k[1],y=0, col="blue", pch = 1) + geom_point(x=b_k[1],y= 0, col="blue", pch = 1)+annotate("text",label="a0",x=a_k[1],y=3)+annotate("text",label="b0",x=b_k[1],y=3)
     
     ### Salvar o plot de cada iteração
     #TODO: Implementar k opções gráficas
@@ -117,7 +105,7 @@ bissection <- function(env_funcao,env_pontos,env_decimais,env_iteracoes,g_indice
       }
       # Indices dos pontos
       if(g_indices){
-        plot_vector[[k+1]] <<- plot_vector[[k]] + geom_point(x=m_k[i],y=0, col="blue", shape = 1)+annotate("text",label=toString(i),x=m_k[i],y=3)
+        plot_vector[[k+1]] <<- plot_vector[[k]] + geom_point(x=m_k[i],y=0, col="blue", shape = 1)+annotate("text",label=toString(i-1),x=m_k[i],y=3)
       }
       else{
         # Plot dos pontos m_k sobre o eixo x

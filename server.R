@@ -71,7 +71,8 @@ server <- function(session,input,output){
       if(input$tipo=="tipo_raiz"){
         if(input$metodo=="Bis"){
           bissection(input$input_funcao,
-                     input$input_pontos,
+                     input$input_pontos_a,
+                     input$input_pontos_b,
                      input$input_decimais,
                      input$input_iteracoes,
                      TRUE,
@@ -79,7 +80,8 @@ server <- function(session,input,output){
         }
         else if (input$metodo=="Fal_Pos"){
           falsa(input$input_funcao,
-                input$input_pontos,
+                input$input_pontos_a,
+                input$input_pontos_b,
                 input$input_decimais,
                 input$input_iteracoes,
                 TRUE,
@@ -97,7 +99,8 @@ server <- function(session,input,output){
         }
         else{
           secante(input$input_funcao,
-                  input$input_pontos,
+                  input$input_pontos_x0,
+                  input$input_pontos_x1,
                   input$input_iteracoes,
                   input$input_decimais,
                   TRUE,
@@ -132,7 +135,8 @@ server <- function(session,input,output){
       else{
         if(input$metodo=="Tra"){
           trapezios(input$input_funcao,
-                    input$input_interv_integra,
+                    input$input_integra_a,
+                    input$input_integra_b,
                     input$input_divisoes,
                     TRUE,
                     TRUE,
@@ -140,7 +144,8 @@ server <- function(session,input,output){
         }
         else{
           simpson(input$input_funcao,
-                  input$input_interv_integra,
+                  input$input_integra_a,
+                  input$input_integra_b,
                   input$input_divisoes,
                   TRUE,
                   TRUE,
@@ -158,6 +163,8 @@ server <- function(session,input,output){
     else{
       popup_erro(error_vector)
     }
+    print('|===- PÓS-RUN -===#')
+    print(mem_used())
   })
   
   ### Para cada alteração de valor do timer, plot os valores.
@@ -183,5 +190,6 @@ server <- function(session,input,output){
   observeEvent(input$s3, {
     timer$inc<-1
     timer$started<-TRUE})
-  
+  print('===== FIM UI =====')
+  print(mem_used())
 }
