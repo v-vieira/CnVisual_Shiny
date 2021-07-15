@@ -98,6 +98,7 @@ bissection <- function(env_funcao,env_pontos_1,env_pontos_2,env_decimais,env_ite
     
     absalt <- abs(y_max-y_min)
     h_x <- abs(b_k[1]-a_k[1])*0.05
+    h_ind <- absalt*0.04
     
     p <- ggplot(data = data.frame(x = 0,y=0), mapping = aes(x = x,y=y)) + geom_vline(xintercept = 0) + geom_hline(yintercept = 0) + xlim(a_k[1]-h_x,b_k[1]+h_x) + ylim(y_min,y_max)
     p <- p + stat_function(fun = func, col = "red")
@@ -105,7 +106,7 @@ bissection <- function(env_funcao,env_pontos_1,env_pontos_2,env_decimais,env_ite
     plot_vector <<- list(p)
     
     ### Plot dos pontos a e b sobre o eixo x
-    plot_vector[[2]] <<- p + geom_point(x=a_k[1],y=0, col="blue", pch = 1) + geom_point(x=b_k[1],y= 0, col="blue", pch = 1)+annotate("text",label="a0",x=a_k[1],y=0)+annotate("text",label="b0",x=b_k[1],y=0)
+    plot_vector[[2]] <<- p + geom_point(x=a_k[1],y=0, col="blue", pch = 1) + geom_point(x=b_k[1],y= 0, col="blue", pch = 1)+annotate("text",label="a0",x=a_k[1],y=h_ind)+annotate("text",label="b0",x=b_k[1],y=h_ind)
     
     ### Salvar o plot de cada iteração
     for (i in 1:cont){
@@ -116,7 +117,7 @@ bissection <- function(env_funcao,env_pontos_1,env_pontos_2,env_decimais,env_ite
       }
       # Indices dos pontos
       if(g_indices){
-        plot_vector[[length(plot_vector)+1]] <<- plot_vector[[length(plot_vector)]] + geom_point(x=m_k[i],y=0, col="blue", shape = 1)+annotate("text",label=toString(i-1),x=m_k[i],y=0)
+        plot_vector[[length(plot_vector)+1]] <<- plot_vector[[length(plot_vector)]] + geom_point(x=m_k[i],y=0, col="blue", shape = 1)+annotate("text",label=toString(i-1),x=m_k[i],y=h_ind)
       }
       else{
         # Plot dos pontos m_k sobre o eixo x

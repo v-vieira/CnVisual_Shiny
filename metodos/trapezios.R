@@ -43,28 +43,43 @@ trapezios<- function(env_funcao,env_interv_integra_a,env_interv_integra_b,env_di
       pointy[i] <- func(pointx[i])
     }
     
-    xmin <- limitx[1]
-    xmax <- limitx[2]
+    x_min <- limitx[1]
+    x_max <- limitx[2]
     
     ### Erro
     
     M2 <- 0
     
-    if(abs(xmax-xmin)<=1000){by_for = 0.05}
+    if(abs(x_max-x_min)<=1000){by_for = 0.05}
     else{by_for = 0.001}
-    for (x in seq(xmin,xmax,by=by_for)){
+    for (x in seq(x_min,x_max,by=by_for)){
       if(abs(DevFunc2(x)) > M2){
         M2 <- abs(DevFunc2(x))
       }
     }
     
-    Errotrap <- M2*(h^2)*(xmax-xmin)/12
+    Errotrap <- M2*(h^2)*(x_max-x_min)/12
     
     ### Plot
+    y_min <- 0
+    y_max <- 0
     
-    h_x <- abs(xmax - xmin)*0.05
+    if(abs(x_max-x_min)<=1000){by_for = 0.05}
+    else{by_for = 0.001}
     
-    p <- ggplot(data = data.frame(x = 0,y=0), mapping = aes(x = x,y=y)) + geom_vline(xintercept = 0) + geom_hline(yintercept = 0) + xlim(xmin-h_x,xmax+h_x) + xlab("Eixo x") + ylab("Eixo y")
+    for (x in seq(x_min,x_max,by=by_for)){
+      if (func(x) < y_min){
+        y_min <- func(x)
+      }
+      if(func(x) > y_max){
+        y_max <- func(x)
+      }
+    }
+    
+    h_ind <- abs(y_max-y_min)*0.04
+    h_x <- abs(x_max - x_min)*0.05
+    
+    p <- ggplot(data = data.frame(x = 0,y=0), mapping = aes(x = x,y=y)) + geom_vline(xintercept = 0) + geom_hline(yintercept = 0) + xlim(x_min-h_x,x_max+h_x) + xlab("Eixo x") + ylab("Eixo y")
     p <- p + stat_function(fun = func, col = "red")
     
     plot_vector <<- list(p)
@@ -75,7 +90,7 @@ trapezios<- function(env_funcao,env_interv_integra_a,env_interv_integra_b,env_di
     
     if(g_indices){
       for(i in 1:length(pointx)){
-        p <- p + annotate("text", label=toString(i-1),pointx[i],pointy[i], col="blue")
+        p <- p + annotate("text", label=toString(i-1),pointx[i],pointy[i]+h_ind, col="blue")
       }
     }
     if(g_lv){

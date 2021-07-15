@@ -63,11 +63,23 @@ secante<- function(env_funcao,env_pontos_1,env_pontos_2,env_iteracoes,env_decima
     
     x_min <- min(x_k)
     x_max <- max(x_k)
+    y_min <- 0
+    y_max <- 0
+    
+    if(abs(x_max-x_min)<=1000){by_for = 0.05}
+    else{by_for = 0.001}
+    
+    for (x in seq(x_min,x_max,by=by_for)){
+      if (func(x) < y_min){
+        y_min <- func(x)
+      }
+      if(func(x) > y_max){
+        y_max <- func(x)
+      }
+    }
+    
+    h_ind <- abs(y_max-y_min)*0.04
     h_x <- abs(x_max-x_min)*0.05
-    print(x_k)
-    print(x_min)
-    print(x_max)
-    print(h_x)
     
     p <- ggplot(data = data.frame(x = 0), mapping = aes(x = x)) + geom_vline(xintercept = 0) + geom_hline(yintercept = 0) + xlim(x_min-h_x,x_max+h_x) + xlab("Eixo x") + ylab("Eixo y")
     p <- p + stat_function(fun = func, col = "red")
@@ -75,7 +87,7 @@ secante<- function(env_funcao,env_pontos_1,env_pontos_2,env_iteracoes,env_decima
     plot_vector <<- list(p)
     
     if(g_indices){
-      p <- p + annotate("text",label="0",x=x_k[1],y=0,col="blue")
+      p <- p + annotate("text",label="0",x=x_k[1],y=h_ind,col="blue")
     }
     p <- p + geom_point(x=x_k[1],y= 0, col="blue", pch = 1)
     plot_vector[[2]] <<- p
@@ -94,7 +106,7 @@ secante<- function(env_funcao,env_pontos_1,env_pontos_2,env_iteracoes,env_decima
       
       p <-  plot_vector[[length(plot_vector)]] + geom_point(x=x_k[i],y=fx_k[i], col="green", pch=1)
       if(g_indices){
-        p <- p + annotate("text",label=i-1,x=x_k[i],y=0,col="blue")
+        p <- p + annotate("text",label=i-1,x=x_k[i],y=h_ind,col="blue")
       }
       
       plot_vector[[length(plot_vector)+1]] <<- p

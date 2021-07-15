@@ -66,6 +66,22 @@ newtonraphson<- function(env_funcao,env_x0,env_decimais,env_iteracoes,g_indices,
     ### PLOT
     x_min <- min(x_k)
     x_max <- max(x_k)
+    y_min <- 0
+    y_max <- 0
+    
+    if(abs(x_max-x_min)<=1000){by_for = 0.05}
+    else{by_for = 0.001}
+    
+    for (x in seq(x_min,x_max,by=by_for)){
+      if (func(x) < y_min){
+        y_min <- func(x)
+      }
+      if(func(x) > y_max){
+        y_max <- func(x)
+      }
+    }
+    
+    h_ind <- abs(y_max-y_min)*0.04
     h_x <- abs(x_max-x_min)*0.05
     
     p <- ggplot(data = data.frame(x = 0,y = 0), mapping = aes(x = x, y = y)) + xlim(x_min-h_x,x_max+h_x)
@@ -78,10 +94,10 @@ newtonraphson<- function(env_funcao,env_x0,env_decimais,env_iteracoes,g_indices,
       
       if(g_indices){
         if(i==1){
-          p <- p + annotate("text",label='x0',x=x_k[i],y=3,col="blue")
+          p <- p + annotate("text",label='x0',x=x_k[i],y=h_ind,col="blue")
         }
         else{
-          p <- p + annotate("text",label=toString(i-1),x=x_k[i],y=3,col="blue")
+          p <- p + annotate("text",label=toString(i-1),x=x_k[i],y=h_ind,col="blue")
         }
       }
       

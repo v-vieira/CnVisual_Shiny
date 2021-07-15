@@ -47,12 +47,12 @@ simpson<- function(env_funcao,env_interv_integra_a,env_interv_integra_b,env_divi
     
     soma <- simpson(func, limitx[1], limitx[2], m)
     
-    xmin <- limitx[1]
-    xmax <- limitx[2]
+    x_min <- limitx[1]
+    x_max <- limitx[2]
     
     pointx[1] <- limitx[1]
     pointy[1] <- func(pointx[1])
-    h <- (abs(xmax - xmin)/m)
+    h <- (abs(x_max - x_min)/m)
     for(i in 2:(m+1)){
       pointx[i] <- (pointx[i-1] + h)
       pointy[i] <- func(pointx[i])
@@ -61,20 +61,36 @@ simpson<- function(env_funcao,env_interv_integra_a,env_interv_integra_b,env_divi
     ### Erro
     M4 <- 0
     
-    if(abs(xmax-xmin)<=1000){by_for = 0.05}
+    if(abs(x_max-x_min)<=1000){by_for = 0.05}
     else{by_for = 0.001}
-    for (x in seq(xmin,xmax,by=by_for)){
+    for (x in seq(x_min,x_max,by=by_for)){
       if(abs(DevFunc4(x)) > M4){
         M4 <- abs(DevFunc4(x))
       }
     }
     
-    Errosimp <- M4*(((xmax-xmin)*(h^4))/(180))
+    Errosimp <- M4*(((x_max-x_min)*(h^4))/(180))
     
     ### Plot
-    h_x <- abs(xmax - xmin)*0.05
+    y_min <- 0
+    y_max <- 0
     
-    p <- ggplot(data = data.frame(x = 0,y=0), mapping = aes(x = x,y=y)) + geom_vline(xintercept = 0) + geom_hline(yintercept = 0) + xlim(xmin-h_x,xmax+h_x)+ xlab("Eixo x") + ylab("Eixo y")
+    if(abs(x_max-x_min)<=1000){by_for = 0.05}
+    else{by_for = 0.001}
+    
+    for (x in seq(x_min,x_max,by=by_for)){
+      if (func(x) < y_min){
+        y_min <- func(x)
+      }
+      if(func(x) > y_max){
+        y_max <- func(x)
+      }
+    }
+    
+    h_ind <- abs(y_max-y_min)*0.04
+    h_x <- abs(x_max - x_min)*0.05
+    
+    p <- ggplot(data = data.frame(x = 0,y=0), mapping = aes(x = x,y=y)) + geom_vline(xintercept = 0) + geom_hline(yintercept = 0) + xlim(x_min-h_x,x_max+h_x)+ xlab("Eixo x") + ylab("Eixo y")
     p <- p + stat_function(fun = func, col = "red")
     
     plot_vector <<- list(p)
@@ -88,7 +104,7 @@ simpson<- function(env_funcao,env_interv_integra_a,env_interv_integra_b,env_divi
       
       ### Caso seja marcado os indicies dos pontos no checkbox
       if(g_indices){ 
-        p <- p + annotate("text",label=toString(i-1),x=pointx[i],y=pointy[i],col='blue')
+        p <- p + annotate("text",label=toString(i-1),x=pointx[i],y=pointy[i]+h_ind,col='blue')
       }
       
     }

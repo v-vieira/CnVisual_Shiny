@@ -73,13 +73,28 @@ falsa <- function(env_funcao,env_pontos_1,env_pontos_2,env_decimais,env_iteracoe
     cont <- cont -1
     
     ### PLOT
+    y_min <- 0
+    y_max <- 0
+    
+    if(abs(b_k[1]-a_k[1])<=1000){by_for = 0.05}
+    else{by_for = 0.001}
+    
+    for (x in seq(a_k[1],b_k[1],by=by_for)){
+      if (func(x) < y_min){
+        y_min <- func(x)
+      }
+      if(func(x) > y_max){
+        y_max <- func(x)
+      }
+    }
+    h_ind <- abs(y_max-y_min)*0.04
     h_x <- abs(b_k[1]-a_k[1])*0.05
     
     p <- ggplot(data = data.frame(x = 0,y = 0), mapping = aes(x = x,y = y)) + geom_vline(xintercept = 0) + geom_hline(yintercept = 0) + xlim(a_k[1]-h_x, b_k[1]+h_x) + xlab("Eixo x") + ylab("Eixo y")
     p <- p + stat_function(fun = func, col = "red")
     plot_vector <<- list(p)
     
-    plot_vector[[2]] <<- plot_vector[[1]] + geom_point(x=a_k[1],y=0, col="blue", pch = 1) + geom_point(x=b_k[1],y= 0, col="blue", pch = 1)+annotate("text",label="a0",x=a_k[1],y=0)+annotate("text",label="b0",x=b_k[1],y=0)
+    plot_vector[[2]] <<- plot_vector[[1]] + geom_point(x=a_k[1],y=0, col="blue", pch = 1) + geom_point(x=b_k[1],y= 0, col="blue", pch = 1)+annotate("text",label="a0",x=a_k[1],y=h_ind)+annotate("text",label="b0",x=b_k[1],y=h_ind)
     
     # Animacao
     for (i in 1:cont){
@@ -95,7 +110,7 @@ falsa <- function(env_funcao,env_pontos_1,env_pontos_2,env_decimais,env_iteracoe
       p <- plot_vector[[length(plot_vector)]] + geom_point(x = m_k[i], y = 0, col="blue", pch = 1)
       
       if(g_indices){
-        p <- p + annotate("text", label = toString(i-1),x= m_k[i],y=0)
+        p <- p + annotate("text", label = toString(i-1),x= m_k[i],y=h_ind)
       }
       
       plot_vector[[length(plot_vector)+1]] <<- p

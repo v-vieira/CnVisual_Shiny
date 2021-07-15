@@ -55,6 +55,23 @@ inter_pontos<- function(env_ponto_aprox,env_pontos_x,env_pontos_y,g_indices,g_lv
     
     x_min <- min(valx)
     x_max <- max(valx)
+    
+    y_min <- 0
+    y_max <- 0
+    
+    if(abs(x_max-x_min)<=1000){by_for = 0.05}
+    else{by_for = 0.001}
+    
+    for (x in seq(x_min,x_max,by=by_for)){
+      if (PolLagrange(x) < y_min){
+        y_min <- PolLagrange(x)
+      }
+      if(PolLagrange(x) > y_max){
+        y_max <- PolLagrange(x)
+      }
+    }
+    
+    h_ind <- abs(y_max-y_min)*0.04
     h_x <- abs(x_max-x_min)*0.05
     
     p <- ggplot(data = data.frame(x = 0), mapping = aes(x = x)) + geom_vline(xintercept = 0) + geom_hline(yintercept = 0) + xlim(x_min-h_x, x_max+h_x) + xlab("Eixo x") + ylab("Eixo y")
@@ -64,16 +81,15 @@ inter_pontos<- function(env_ponto_aprox,env_pontos_x,env_pontos_y,g_indices,g_lv
       p <- p + geom_point(x=valx[i],y=valy[i],col='blue',pch=1)
     }
     
-    ### Plot dos indices
-    if(g_indices){
-      for(i in 1:contval){
-        p <- p + annotate("text",label=toString(i),x=valx[i],y=valy[i],col='blue')
-      }
-    }
-    
     if(g_lv){
       for(i in 1:contval){
         p <- p + geom_segment(x=valx[i],xend=valx[i],y=0,yend=valy[i],col="azure4",linetype="dashed")
+      }
+    }
+    ### Plot dos indices
+    if(g_indices){
+      for(i in 1:contval){
+        p <- p + annotate("text",label=toString(i),x=valx[i],y=valy[i]+h_ind,col='blue')
       }
     }
     
