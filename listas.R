@@ -6,7 +6,6 @@ lista_entradas <- list("input_funcao",
                        "input_pontos_ab",
                        "input_pontos_sec",
                        "input_x0",
-                       "input_intervalo",
                        "input_decimais",
                        "input_iteracoes",
                        "input_veloc_anim",
@@ -17,7 +16,8 @@ lista_entradas <- list("input_funcao",
                        "input_ponto_input",
                        "input_divisoes",
                        "input_interv_integra",
-                       "input_graus")
+                       "input_graus",
+                       "g_offset")
 
 lista_og <- list('g_indices','g_lh','g_sc','g_lv','g_ltg','g_pintar')
 # lista com os tipos de metodos
@@ -44,7 +44,6 @@ entrada_metodo <- list(
   # Newton Rapson -> OK
   c("input_funcao",
     "input_x0",
-    "input_intervalo",
     "input_decimais",
     "input_iteracoes",
     "input_veloc_anim"),
@@ -87,7 +86,8 @@ entrada_metodo <- list(
     #,
     #"input_intervalo_x",
     "input_graus",
-    "input_veloc_anim"
+    "input_veloc_anim",
+    "g_offset"
     ),
   
   #'

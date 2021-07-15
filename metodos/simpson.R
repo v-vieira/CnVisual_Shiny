@@ -59,15 +59,22 @@ simpson<- function(env_funcao,env_interv_integra_a,env_interv_integra_b,env_divi
     }
     
     ### Erro
-    Dev4_min <- optimize(DevFunc4,interval=c(xmin,xmax))$minimum
-    Dev4_max <- optimize(DevFunc4,interval=c(xmin,xmax),maximum = TRUE)$maximum
+    M4 <- 0
     
-    M4 <- max(abs(c(Dev4_min,Dev4_max)))
+    if(abs(xmax-xmin)<=1000){by_for = 0.05}
+    else{by_for = 0.001}
+    for (x in seq(xmin,xmax,by=by_for)){
+      if(abs(DevFunc4(x)) > M4){
+        M4 <- abs(DevFunc4(x))
+      }
+    }
     
     Errosimp <- M4*(((xmax-xmin)*(h^4))/(180))
     
     ### Plot
-    p <- ggplot(data = data.frame(x = 0,y=0), mapping = aes(x = x,y=y)) + geom_vline(xintercept = 0) + geom_hline(yintercept = 0) + xlim(xmin,xmax) + xlab("Eixo x") + ylab("Eixo y")
+    h_x <- abs(xmax - xmin)*0.05
+    
+    p <- ggplot(data = data.frame(x = 0,y=0), mapping = aes(x = x,y=y)) + geom_vline(xintercept = 0) + geom_hline(yintercept = 0) + xlim(xmin-h_x,xmax+h_x)+ xlab("Eixo x") + ylab("Eixo y")
     p <- p + stat_function(fun = func, col = "red")
     
     plot_vector <<- list(p)
@@ -86,10 +93,9 @@ simpson<- function(env_funcao,env_interv_integra_a,env_interv_integra_b,env_divi
       
     }
     
-    plot_vector[[2]] <<- p
+    plot_vector[[length(plot_vector)+1]] <<- p
     Fpoli<- c()
     
-    j <- 3
     area_vector <- list()
     p_area <- p
     for(i in seq(from=1, to=(m-1), by=2)){
@@ -105,17 +111,12 @@ simpson<- function(env_funcao,env_interv_integra_a,env_interv_integra_b,env_divi
                 stat_function(fun=polifun,xlim=c(pointx[i],pointx[i+2]),geom='area',alpha=0.7,fill='skyblue') +
                 stat_function(fun = polifun,xlim=c(pointx[i]-h*0.15,pointx[i+2]+h*0.15)) 
       
-      plot_vector[[j]] <<- p
-      j <- j + 1
+      plot_vector[[length(plot_vector)+1]] <<- p
     }
     
-    #TODO: Implementar pintar a área
     if(g_pintar){
-      plot_vector[[j]] <<- p_area + stat_function(fun = func_replot, col = "red")
+      plot_vector[[length(plot_vector)+1]] <<- p_area + stat_function(fun = func_replot, col = "red")
     }
-    #Plot da funcao de novo, para ficar a cima dos outros plots
-    # curve(func, xmin -1, xmax +1, col = "red", xlab="eixo x", ylab="eixo y", lwd=2, add=TRUE)
-    # abline(h=0, lty=2)
     
     ### Resultados
     value_output <<- list()

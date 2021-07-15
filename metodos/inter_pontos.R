@@ -53,7 +53,11 @@ inter_pontos<- function(env_ponto_aprox,env_pontos_x,env_pontos_y,g_indices,g_lv
     # valor a ser aproximado
     Valaprmy <- PolLagrange(valaprm)
     
-    p <- ggplot(data = data.frame(x = 0), mapping = aes(x = x)) + geom_vline(xintercept = 0) + geom_hline(yintercept = 0) + xlim(min(valx), max(valx)) + ylim(min(valy), max(valy)) + xlab("Eixo x") + ylab("Eixo y")
+    x_min <- min(valx)
+    x_max <- max(valx)
+    h_x <- abs(x_max-x_min)*0.05
+    
+    p <- ggplot(data = data.frame(x = 0), mapping = aes(x = x)) + geom_vline(xintercept = 0) + geom_hline(yintercept = 0) + xlim(x_min-h_x, x_max+h_x) + xlab("Eixo x") + ylab("Eixo y")
     
     # Plot dos pontos
     for(i in 1:contval){
@@ -92,12 +96,14 @@ inter_pontos<- function(env_ponto_aprox,env_pontos_x,env_pontos_y,g_indices,g_lv
     plot_vector[[2]] <<- plot_vector[[1]] + stat_function(fun = PolLagrange, col = "red")
     
     ### Plot do ponto aproximado
-    p <- plot_vector[[2]] + geom_segment(x=valaprm,xend=valaprm,y=0,yend=Valaprmy, col="azure4", linetype="dashed") + geom_point(x=valaprm,y=Valaprmy,col="chartreuse4",pch=9)
+    p <- plot_vector[[2]] + geom_point(x=valaprm,y=Valaprmy,col="chartreuse4",pch=9)
     
-    ### Plot dos indices
-    if(g_indices){
-      p <- p + annotate("text",label="Valaprmy",valaprm,Valaprmy, col="chartreuse4")
+    if(g_lv){
+      p <- p + geom_segment(x=valaprm,xend=valaprm,y=0,yend=Valaprmy, col="azure4", linetype="dashed") 
     }
+    # if(g_indices){
+    #   p <- p + annotate("text",label=Valaprmy,valaprm,Valaprmy, col="chartreuse4")
+    # }
     
     plot_vector[[3]] <<- p
     

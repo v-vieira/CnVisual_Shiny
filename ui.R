@@ -37,7 +37,6 @@ ui <- fluidPage(
                 shinyjs::hidden(input_pontos_ab),
                 shinyjs::hidden(input_pontos_sec),
                 shinyjs::hidden(input_x0),
-                shinyjs::hidden(input_intervalo),
                 shinyjs::hidden(input_pontos_x),
                 shinyjs::hidden(input_pontos_y),
                 shinyjs::hidden(input_ponto_input),

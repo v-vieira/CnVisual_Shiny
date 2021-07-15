@@ -22,18 +22,6 @@ secante<- function(env_funcao,env_pontos_1,env_pontos_2,env_iteracoes,env_decima
   f_x0 <- func(x0)
   f_x1 <- func(x1)
   
-  # Criando vetores para o plot
-  x_k <- c()
-  fx_k <- c()
-  
-  #Preenchendo os vetores
-  x_k[1] <- x0
-  x_k[2] <- x1
-  fx_k[1] <- f_x0
-  fx_k[2] <- f_x1
-  
-  
-  
   ### Erro caso o ponto x0 dado ja satisfaz o criterio de parada
   if(abs(f_x0)<stp){ 
     error_vector <<- c(error_vector,'O ponto \'x0\' já satisfaz o critério de parada')
@@ -47,31 +35,47 @@ secante<- function(env_funcao,env_pontos_1,env_pontos_2,env_iteracoes,env_decima
     error_vector <<- c(error_vector,'|x0-x1| > já satisfaz o critério de parada')
   }
   
-  #===Comeco do metodo em si
-  #
   else if(is.null(error_vector)){
+    # Criando vetores para o plot
+    x_k <- c()
+    fx_k <- c()
+    
+    #Preenchendo os vetores
+    x_k[1] <- x0
+    x_k[2] <- x1
+    fx_k[1] <- f_x0
+    fx_k[2] <- f_x1
     # contador de indices para while
     cont <- 2
     
     whileaux <- -1 #teste para fazer ate chegar ao erro desejado
     while(whileaux == -1){
       cont <- cont + 1
+      #TODO: Colocar erro caso fx_k[cont-1]==fx_k[cont-2]
       x_k[cont] <- (x_k[cont-1] - ((fx_k[cont-1])*((x_k[cont-1] - x_k[cont-2])/(fx_k[cont-1] - fx_k[cont-2]))))
       fx_k[cont] <- func(x_k[cont])
       
       Errosec <-((x_k[cont]-x_k[cont-1])/(x_k[cont]))
       if(abs(Errosec*x_k[cont])<stp){whileaux <- 1}
-      if(cont>stpcont){whileaux <- 1}
+      if(cont>stpcont+1){whileaux <- 1}
       if(abs(fx_k[cont])<stp){whileaux <- 1}
     }
     
-    p <- ggplot(data = data.frame(x = 0), mapping = aes(x = x)) + geom_vline(xintercept = 0) + geom_hline(yintercept = 0) + xlim(x0-1,x1+1) + xlab("Eixo x") + ylab("Eixo y")
+    x_min <- min(x_k)
+    x_max <- max(x_k)
+    h_x <- abs(x_max-x_min)*0.05
+    print(x_k)
+    print(x_min)
+    print(x_max)
+    print(h_x)
+    
+    p <- ggplot(data = data.frame(x = 0), mapping = aes(x = x)) + geom_vline(xintercept = 0) + geom_hline(yintercept = 0) + xlim(x_min-h_x,x_max+h_x) + xlab("Eixo x") + ylab("Eixo y")
     p <- p + stat_function(fun = func, col = "red")
     
     plot_vector <<- list(p)
     
     if(g_indices){
-      p <- p + annotate("text",label="0",x=x_k[1],y=3,col="blue")
+      p <- p + annotate("text",label="0",x=x_k[1],y=0,col="blue")
     }
     p <- p + geom_point(x=x_k[1],y= 0, col="blue", pch = 1)
     plot_vector[[2]] <<- p
@@ -82,28 +86,33 @@ secante<- function(env_funcao,env_pontos_1,env_pontos_2,env_iteracoes,env_decima
     plot_vector[[3]] <<- p + geom_point(x=x_k[1],y=fx_k[1],col="green",pch=1)
     
     for (i in 2:(cont)){
-      k <- 4 + (i-2)*5
-      plot_vector[[k]] <<- plot_vector[[k-1]] + geom_point(x=x_k[i],y=0, col="blue", pch = 1)
+      plot_vector[[length(plot_vector)+1]] <<- plot_vector[[length(plot_vector)]] + geom_point(x=x_k[i],y=0, col="blue", pch = 1)
       
       if(g_lv){
-        plot_vector[[k+1]] <<- plot_vector[[k]] + geom_segment(x=x_k[i],xend=x_k[i],y=0,yend=fx_k[i], col= "azure4", lty=2)
+        plot_vector[[length(plot_vector)+1]] <<- plot_vector[[length(plot_vector)]] + geom_segment(x=x_k[i],xend=x_k[i],y=0,yend=fx_k[i], col= "azure4", lty=2)
       }
       
-      plot_vector[[k+2]] <<- plot_vector[[k+1]] + geom_point(x=x_k[i],y=fx_k[i], col="green", pch=1)
-      
+      p <-  plot_vector[[length(plot_vector)]] + geom_point(x=x_k[i],y=fx_k[i], col="green", pch=1)
       if(g_indices){
-        plot_vector[[k+3]] <<- plot_vector[[k+2]] + annotate("text",label=i-1,x=x_k[i],y=3,col="blue")
+        p <- p + annotate("text",label=i-1,x=x_k[i],y=0,col="blue")
       }
       
-      if(g_sc){
+      plot_vector[[length(plot_vector)+1]] <<- p
+      if(g_sc && i!=cont){
         if((fx_k[i-1]*fx_k[i])<0)
           p <- geom_segment(x=x_k[i-1],xend=x_k[i],y=fx_k[i-1],yend=fx_k[i],col = "yellow")
-        else
-          p <- geom_segment(x=x_k[i-1],xend=x_k[i+1],y=fx_k[i-1],yend=0,col="yellow")
-        plot_vector[[k+4]] <<- plot_vector[[k+3]] + p
+        else{
+          if(abs(fx_k[i-1])<abs(fx_k[i])){
+            p <- geom_segment(x=x_k[i],xend=x_k[i+1],y=fx_k[i],yend=0,col="yellow")
+          }
+          else{
+            p <- geom_segment(x=x_k[i-1],xend=x_k[i+1],y=fx_k[i-1],yend=0,col="yellow")
+          }
+        }
+        plot_vector[[length(plot_vector)+1]] <<- plot_vector[[length(plot_vector)]] + p
       }
-      value_output <<- list()
-      value_output[[1]] <<-paste("Aproximações: ",paste0(x_k, collapse =" | "))
     }
+    value_output <<- list()
+    value_output[[1]] <<-paste("Aproximações: ",paste0(x_k, collapse =" | "))
   }
 }

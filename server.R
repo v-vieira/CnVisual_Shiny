@@ -83,8 +83,8 @@ server <- function(session,input,output){
                      input$input_pontos_b,
                      input$input_decimais,
                      input$input_iteracoes,
-                     TRUE,
-                     TRUE)
+                     input$g_indices,
+                     input$g_lh)
         }
         else if (input$metodo=="Fal_Pos"){
           falsa(input$input_funcao,
@@ -92,18 +92,17 @@ server <- function(session,input,output){
                 input$input_pontos_b,
                 input$input_decimais,
                 input$input_iteracoes,
-                TRUE,
-                TRUE)
+                input$g_indices,
+                input$g_sc)
         }
         else if(input$metodo=="New_Rap"){
           newtonraphson(input$input_funcao,
                         input$input_x0,
-                        input$input_intervalo,
                         input$input_decimais,
                         input$input_iteracoes,
-                        TRUE,
-                        TRUE,
-                        TRUE)
+                        input$g_indices,
+                        input$g_lv,
+                        input$g_ltg)
         }
         else{
           secante(input$input_funcao,
@@ -111,9 +110,9 @@ server <- function(session,input,output){
                   input$input_pontos_x1,
                   input$input_iteracoes,
                   input$input_decimais,
-                  TRUE,
-                  TRUE,
-                  TRUE)
+                  input$g_indices,
+                  input$g_lv,
+                  input$g_sc)
         }
       }
       else if(input$tipo=="tipo_interpo"){
@@ -121,23 +120,22 @@ server <- function(session,input,output){
           inter_funcao(input$input_ponto_aprox,
                        input$input_pontos_x,
                        input$input_funcao,
-                       TRUE,
-                       TRUE)
+                       input$g_indices,
+                       input$g_lv)
         }
         else if(input$metodo=="Pol_pon"){
           inter_pontos(input$input_ponto_aprox,
                        input$input_pontos_x,
                        input$input_pontos_y,
-                       TRUE,
-                       TRUE)
+                       input$g_indices,
+                       input$g_lv)
         }
         else{
           taylor(input$input_funcao,
                  input$input_ponto_input,
                  input$input_ponto_aprox,
-                 #TODO: Colocar como input (gráfico)
-                 env_int_plot = '-6 6',
-                 input$input_graus)
+                 input$input_graus,
+                 input$g_offset)
         }
       }
       else{
@@ -146,18 +144,18 @@ server <- function(session,input,output){
                     input$input_integra_a,
                     input$input_integra_b,
                     input$input_divisoes,
-                    TRUE,
-                    TRUE,
-                    TRUE)
+                    input$g_pintar,
+                    input$g_lv,
+                    input$g_indices)
         }
         else{
           simpson(input$input_funcao,
                   input$input_integra_a,
                   input$input_integra_b,
                   input$input_divisoes,
-                  TRUE,
-                  TRUE,
-                  TRUE)
+                  input$g_lv,
+                  input$g_indices,
+                  input$g_pintar)
         }
       }
       if(is.null(error_vector)){

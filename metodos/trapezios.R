@@ -47,15 +47,24 @@ trapezios<- function(env_funcao,env_interv_integra_a,env_interv_integra_b,env_di
     xmax <- limitx[2]
     
     ### Erro
-    Dev2_min <- optimize(DevFunc2,interval=c(xmin,xmax))$minimum
-    Dev2_max <- optimize(DevFunc2,interval=c(xmin,xmax),maximum = TRUE)$maximum
     
-    M2 <- max(abs(c(Dev2_min,Dev2_max)))
+    M2 <- 0
     
-    Errotrap <- M2*(((xmax-xmin)*(h^2))/(12))
+    if(abs(xmax-xmin)<=1000){by_for = 0.05}
+    else{by_for = 0.001}
+    for (x in seq(xmin,xmax,by=by_for)){
+      if(abs(DevFunc2(x)) > M2){
+        M2 <- abs(DevFunc2(x))
+      }
+    }
+    
+    Errotrap <- M2*(h^2)*(xmax-xmin)/12
     
     ### Plot
-    p <- ggplot(data = data.frame(x = 0,y=0), mapping = aes(x = x,y=y)) + geom_vline(xintercept = 0) + geom_hline(yintercept = 0) + xlim(xmin,xmax) + xlab("Eixo x") + ylab("Eixo y")
+    
+    h_x <- abs(xmax - xmin)*0.05
+    
+    p <- ggplot(data = data.frame(x = 0,y=0), mapping = aes(x = x,y=y)) + geom_vline(xintercept = 0) + geom_hline(yintercept = 0) + xlim(xmin-h_x,xmax+h_x) + xlab("Eixo x") + ylab("Eixo y")
     p <- p + stat_function(fun = func, col = "red")
     
     plot_vector <<- list(p)
@@ -75,12 +84,12 @@ trapezios<- function(env_funcao,env_interv_integra_a,env_interv_integra_b,env_di
       }
     }
     
-    plot_vector[[2]] <<- p
+    plot_vector[[length(plot_vector)+1]] <<- p
     
     for (i in 1:(m+1)){
       if(i!=(m+1)){
-        plot_vector[[i+2]] <<- plot_vector[[i+1]] + geom_segment(x=pointx[i],xend=pointx[i+1],y=pointy[i],yend=pointy[i+1])
-        p <- plot_vector[[i+2]]
+        plot_vector[[length(plot_vector)+1]] <<- plot_vector[[length(plot_vector)]] + geom_segment(x=pointx[i],xend=pointx[i+1],y=pointy[i],yend=pointy[i+1])
+        p <- plot_vector[[length(plot_vector)]]
       }
     }
     
@@ -103,7 +112,7 @@ trapezios<- function(env_funcao,env_interv_integra_a,env_interv_integra_b,env_di
       }
     }
     
-    plot_vector[[m+3]] <<- p + stat_function(fun = func_replot, col = "red")
+    plot_vector[[length(plot_vector)+1]] <<- p + stat_function(fun = func_replot, col = "red")
     
     value_output <<- list()
     value_output[[1]] <<-  paste0("Valor da integração pelo metodo: ",soma," | Erro do metodo <= ",Errotrap)

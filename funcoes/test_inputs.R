@@ -2,16 +2,16 @@ test_inputs <- function(input_metodo,input){
   error_vector <<- c()
   ### Lista de entradas para seus respectivos testes de input
   # Numericas
-  type_num <- c('input_x0','input_decimais','input_iteracoes','input_veloc_anim','input_ponto_aprox','input_ponto_input','input_divisoes')
+  type_num <- c('input_x0','input_decimais','input_iteracoes','input_veloc_anim','input_ponto_aprox','input_ponto_input','input_divisoes','g_offset')
   # Lista de pontos str
   type_list_str <- c('input_pontos_x','input_pontos_y')
   # Lista 2 pontos num
   type_list_num <- c('input_pontos_ab','input_pontos_sec','input_interv_integra')
   inputs_list_num <- list(
-      c('input_pontos_a','input_pontos_b'),
-      c('input_pontos_x0','input_pontos_x1'),
-      c('input_integra_a','input_integra_b')
-      )
+    c('input_pontos_a','input_pontos_b'),
+    c('input_pontos_x0','input_pontos_x1'),
+    c('input_integra_a','input_integra_b')
+  )
   names(inputs_list_num) <- type_list_num
   # Função
   type_fun <- c('input_funcao')
@@ -64,10 +64,20 @@ test_inputs <- function(input_metodo,input){
         error_vector <<- append(error_vector,paste('Não foi possível criar a função dada em ',the_input))
       }
       else{
-        tryCatch({eval(parse(text=paste('b<-function(x){',met,'}')))},
-                 error = function(e){
-                   error_vector <<- append(error_vector,paste('Não foi possível criar a função dada em ',the_input))
-                 })
+        tryCatch({
+          eval(parse(text=paste('a<-function(x){',met,'}')))
+          b <- a(10)
+          if(is.na(b)){
+            error_vector <<- append(error_vector,paste('Não foi possível criar a função dada em ',the_input))
+          }
+          else if(b==Inf){
+            error_vector <<- append(error_vector,paste('Não foi possível criar a função dada em ',the_input))
+          }
+        },
+        error = function(e){
+          error_vector <<- append(error_vector,paste('Não foi possível criar a função dada em ',the_input))
+        }
+        )
       }
     }
   }

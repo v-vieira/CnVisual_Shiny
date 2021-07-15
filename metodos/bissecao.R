@@ -72,44 +72,55 @@ bissection <- function(env_funcao,env_pontos_1,env_pontos_2,env_decimais,env_ite
     
     ### PLOT
     #Pegar os valores maximos e minimos da funcao e forcar um valor minimo e maximo para o plot
-    y_min <- optimize(func,interval = c(a_k[1]- 1,b_k[1]+ 1)) #y_min pega o valor que da o minimo em x e o valor em y
-    y_min <- y_min$objective #y_min agora pega apenas o valor em y
-    y_max <- optimize(func,interval = c(a_k[1]- 1,b_k[1]+ 1),maximum = TRUE)
-    y_max <- y_max$objective
+    y_min <- 0
+    y_max <- 0
+    
+    if(abs(b_k[1]-a_k[1])<=1000){by_for = 0.05}
+    else{by_for = 0.001}
+    
+    for (x in seq(a_k[1],b_k[1],by=by_for)){
+      if (func(x) < y_min){
+        y_min <- func(x)
+      }
+      if(func(x) > y_max){
+        y_max <- func(x)
+      }
+    }
+    
     absalt <- abs(y_max-y_min) #Altura total do plot
     
-    # Definir uma altura minima nos extremos superiores e inferiores
-    if(abs(y_min) <= 0.1*(absalt)) y_min<- -0.1*(absalt)
-    if(abs(y_max) <= 0.1*(absalt)) y_max<- 0.1*(absalt)
-    inter_y <- c(y_min,y_min)
+    if(abs(y_min) < absalt*0.05){
+      y_min <- -absalt*0.1
+    }
+    if(abs(y_max) < absalt*0.05){
+      y_max <- absalt*0.1
+    }
     
-    p <- ggplot(data = data.frame(x = 0), mapping = aes(x = x)) + geom_vline(xintercept = 0) + geom_hline(yintercept = 0)
+    absalt <- abs(y_max-y_min)
+    h_x <- abs(b_k[1]-a_k[1])*0.05
+    
+    p <- ggplot(data = data.frame(x = 0,y=0), mapping = aes(x = x,y=y)) + geom_vline(xintercept = 0) + geom_hline(yintercept = 0) + xlim(a_k[1]-h_x,b_k[1]+h_x) + ylim(y_min,y_max)
     p <- p + stat_function(fun = func, col = "red")
     # Salvar o plot na lista
     plot_vector <<- list(p)
     
     ### Plot dos pontos a e b sobre o eixo x
-    plot_vector[[2]] <<- p + geom_point(x=a_k[1],y=0, col="blue", pch = 1) + geom_point(x=b_k[1],y= 0, col="blue", pch = 1)+annotate("text",label="a0",x=a_k[1],y=3)+annotate("text",label="b0",x=b_k[1],y=3)
+    plot_vector[[2]] <<- p + geom_point(x=a_k[1],y=0, col="blue", pch = 1) + geom_point(x=b_k[1],y= 0, col="blue", pch = 1)+annotate("text",label="a0",x=a_k[1],y=0)+annotate("text",label="b0",x=b_k[1],y=0)
     
     ### Salvar o plot de cada iteração
-    #TODO: Implementar k opções gráficas
     for (i in 1:cont){
       # Linha horizontal
-      if(g_lh){ 
-        k <- 3+2*(i-1)
+      if(g_lh){
         inter_x <-c(a_k[i],b_k[i])
-        plot_vector[[k]] <<- plot_vector[[k-1]] + geom_segment(x=inter_x[1], xend=inter_x[2], y=inter_y[1]-1, yend=inter_y[2]-1,size=i + (i-1)*0.3,col="green4") +geom_point(x=inter_x[1],y=inter_y[1]-1,shape=21,bg="green4")+geom_point(x=inter_x[2],y=inter_y[2]-1,shape=21,bg="green4")
-      }
-      else{
-        k <- i +2
+        plot_vector[[length(plot_vector)+1]] <<- plot_vector[[length(plot_vector)]] + geom_segment(x=inter_x[1], xend=inter_x[2], y=y_min, yend=y_min,size=i + (i-1)*0.3,col="green4") +geom_point(x=inter_x[1],y=y_min,shape=21,bg="green4")+geom_point(x=inter_x[2],y=y_min,shape=21,bg="green4")
       }
       # Indices dos pontos
       if(g_indices){
-        plot_vector[[k+1]] <<- plot_vector[[k]] + geom_point(x=m_k[i],y=0, col="blue", shape = 1)+annotate("text",label=toString(i-1),x=m_k[i],y=3)
+        plot_vector[[length(plot_vector)+1]] <<- plot_vector[[length(plot_vector)]] + geom_point(x=m_k[i],y=0, col="blue", shape = 1)+annotate("text",label=toString(i-1),x=m_k[i],y=0)
       }
       else{
         # Plot dos pontos m_k sobre o eixo x
-        plot_vector[[k+1]] <<- plot_vector[[k]] + geom_point(x=m_k[i],y=0, col="blue", shape = 1)
+        plot_vector[[length(plot_vector)+1]] <<- plot_vector[[length(plot_vector)]] + geom_point(x=m_k[i],y=0, col="blue", shape = 1)
       }
     }
     value_output <<- list()

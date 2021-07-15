@@ -49,13 +49,12 @@ inter_funcao <- function(env_ponto_aprox,env_pontos_x,env_funcao,g_indices,g_lv)
     valrealy <- func(valaprm) # Valor na funcao do ponto a ser aproximado
     
     #=Pontos maximos e minimos
-    x_min <- min(valx)-1
-    x_max <- max(valx)+1
-    y_min <- min(valy)-1
-    y_max <- max(valy)+1
+    x_min <- min(valx)
+    x_max <- max(valx)
     
+    h_x <- abs(x_max-x_min)*0.05
     
-    p <- ggplot(data = data.frame(x = 0), mapping = aes(x = x)) + geom_vline(xintercept = 0) + geom_hline(yintercept = 0) + xlim(x_min,x_max) + ylim(y_min, y_max) + xlab("Eixo x") + ylab("Eixo y")
+    p <- ggplot(data = data.frame(x = 0), mapping = aes(x = x)) + geom_vline(xintercept = 0) + geom_hline(yintercept = 0) + xlim(x_min-h_x,x_max+h_x) + xlab("Eixo x") + ylab("Eixo y")
     p <- p + stat_function(fun = func, col = "black")
     
     plot_vector <<- list (p)
@@ -66,9 +65,8 @@ inter_funcao <- function(env_ponto_aprox,env_pontos_x,env_funcao,g_indices,g_lv)
     
     ### Plot dos indices
     if(g_indices){
-      index <-c(0:(contval-1))
       for(i in 1:contval){
-        p <- p + annotate("text",label= index[i],x=valx[i],y=valy[i],col='blue')
+        p <- p + annotate("text",label= toString(i),x=valx[i],y=valy[i],col='blue')
       }
     }
     ### Plot das linhas verticais
@@ -84,9 +82,13 @@ inter_funcao <- function(env_ponto_aprox,env_pontos_x,env_funcao,g_indices,g_lv)
     plot_vector[[3]] <<- plot_vector[[2]] + stat_function(fun = PolLagrange, col = "red")
     
     ### Plot do ponto aproximado no polinomio
-    p <- plot_vector[[3]] + geom_point(x=valaprm, y= Valaprmy, col="chartreuse4", pch=9) + annotate("text",label=toString(Valaprmy),x=valaprm,y=Valaprmy, col="chartreuse4")
+    p <- plot_vector[[3]] + geom_point(x=valaprm, y= Valaprmy, col="chartreuse4", pch=9) 
     ### Plot do ponto aproximado na função
-    p <- p + geom_point(x=valaprm,y= valrealy, col="chartreuse4", pch=9) + annotate("text", label = toString(valrealy),x=valaprm,y=valrealy, col="chartreuse4")
+    p <- p + geom_point(x=valaprm,y= valrealy, col="chartreuse4", pch=9) 
+    
+    # if(g_indices){
+    #   p <- p + annotate("text",label=toString(Valaprmy),x=valaprm,y=Valaprmy, col="chartreuse4")+ annotate("text", label = toString(valrealy),x=valaprm,y=valrealy, col="chartreuse4")
+    # }
     
     plot_vector[[4]] <<- p + geom_segment(x=valaprm,xend=valaprm,y=Valaprmy,yend= valrealy, col = "chartreuse4")
     

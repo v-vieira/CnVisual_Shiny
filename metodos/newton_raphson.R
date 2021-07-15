@@ -1,11 +1,10 @@
-newtonraphson<- function(env_funcao,env_x0,env_intervalo,env_decimais,env_iteracoes,g_indices,g_lv,g_ltg){
+newtonraphson<- function(env_funcao,env_x0,env_decimais,env_iteracoes,g_indices,g_lv,g_ltg){
   ### vetor de erro
   error_vector <<-c()
   
   #== Valores de entrada
   f<-env_funcao 
   x0<-as.numeric(env_x0)
-  pointsentr<-env_intervalo  
   
   s<-round(abs(as.numeric(env_decimais)))
   if(s==0||s>5){s<-5}
@@ -13,14 +12,6 @@ newtonraphson<- function(env_funcao,env_x0,env_intervalo,env_decimais,env_iterac
   
   stpint <- round(abs(as.numeric(env_iteracoes)))
   if(stpint==0 || stpint>15){stpint <- 15}
-  
-  
-  #=== pegar os valores separados em x
-  #
-  valxaux <- as.list(strsplit(pointsentr," ")[[1]])
-  contval <- length(valxaux)
-  a0 <-as.numeric(valxaux[1])
-  b0 <- as.numeric(valxaux[2])
   
   
   # Criando strings de entrada
@@ -71,31 +62,39 @@ newtonraphson<- function(env_funcao,env_x0,env_intervalo,env_decimais,env_iterac
       if(abs(x_k[cont]-x_k[cont-1])<stp){whilevar <- 1}
       if(abs(fx_k[cont])<stp){whilevar <- 1}
     }
-    p <- ggplot(data = data.frame(x = 0), mapping = aes(x = x)) + xlim(a0,b0)
+    
+    ### PLOT
+    x_min <- min(x_k)
+    x_max <- max(x_k)
+    h_x <- abs(x_max-x_min)*0.05
+    
+    p <- ggplot(data = data.frame(x = 0,y = 0), mapping = aes(x = x, y = y)) + xlim(x_min-h_x,x_max+h_x)
     p <- p + stat_function(fun=func, col = "red")+ geom_vline(xintercept = 0) + geom_hline(yintercept = 0)
     plot_vector <<- list(p)
     
-    #TODO: Implementar k opções gráficas
     for (i in 1:cont){
-      k <- 2+ 4*(i-1)
-      index <-c(0:(cont-1))
       
-      p <- plot_vector[[k-1]] + geom_point(x=x_k[i],y=0,col="blue",shape=1)
+      p <- plot_vector[[length(plot_vector)]] + geom_point(x=x_k[i],y=0,col="blue",shape=1)
       
       if(g_indices){
-        p <- p + annotate("text",label=toString(i),x=x_k[i],y=3,col="blue")
+        if(i==1){
+          p <- p + annotate("text",label='x0',x=x_k[i],y=3,col="blue")
+        }
+        else{
+          p <- p + annotate("text",label=toString(i-1),x=x_k[i],y=3,col="blue")
+        }
       }
       
-      plot_vector[[k]] <<- p
+      plot_vector[[length(plot_vector)+1]] <<- p
       
       if(g_lv){
-        plot_vector[[k+1]] <<- plot_vector[[k]] + geom_segment(x=x_k[i],xend=x_k[i],y=0,yend=fx_k[i],col="darkgray",linetype="dashed")
+        plot_vector[[length(plot_vector)+1]] <<- plot_vector[[length(plot_vector)]] + geom_segment(x=x_k[i],xend=x_k[i],y=0,yend=fx_k[i],col="darkgray",linetype="dashed")
       }
       
-      plot_vector[[k+2]]<<- plot_vector[[k+1]] + geom_point(x=x_k[i],y=fx_k[i], col="green", shape=1)
+      plot_vector[[length(plot_vector)+1]]<<- plot_vector[[length(plot_vector)]] + geom_point(x=x_k[i],y=fx_k[i], col="green", shape=1)
       
       if(g_ltg){
-        plot_vector[[k+3]] <<- plot_vector[[k+2]] + geom_segment( x= x_k[i],xend=x_k[i+1],y=fx_k[i],yend =0,col = "black")
+        plot_vector[[length(plot_vector)+1]] <<- plot_vector[[length(plot_vector)]] + geom_segment( x= x_k[i],xend=x_k[i+1],y=fx_k[i],yend =0,col = "black")
       }
     }
     value_output <<- list()

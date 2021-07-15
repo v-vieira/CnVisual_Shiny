@@ -54,11 +54,6 @@ input_x0 <- numericInput(
   value = NULL
 )
 
-input_intervalo <- textInput(
-  inputId="input_intervalo",
-  label = "Intervalo"
-)
-
 input_decimais <- numericInput(
   inputId="input_decimais",
   label = "Nº casas decimais",
@@ -173,6 +168,11 @@ opcoes_grapicas <- tags$div(
                   value=TRUE),
     checkboxInput(inputId = 'g_pintar',
                   label='Pintar Área Gráfica',
-                  value=TRUE)
+                  value=TRUE),
+    numericInput(inputId = 'g_offset',
+                  label='Offset pt. aprox.',
+                  value=1,
+                  min = 0.1,
+                  step = 0.1)
   )
 )

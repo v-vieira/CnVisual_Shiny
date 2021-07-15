@@ -72,41 +72,34 @@ falsa <- function(env_funcao,env_pontos_1,env_pontos_2,env_decimais,env_iteracoe
     }
     cont <- cont -1
     
-    y_min <- optimize(func,interval = c(a_k[1],b_k[1]))
-    y_min <- y_min$objective
-    y_max <- optimize(func,interval = c(a_k[1],b_k[1]),maximum = TRUE)
-    y_max <- y_max$objective
-    absalt <- abs(y_max-y_min)
-    absalt <- abs(y_max-y_min)
+    ### PLOT
+    h_x <- abs(b_k[1]-a_k[1])*0.05
     
-    if(abs(y_min) <= 0.1*(absalt)) y_min<- -0.1*(absalt)
-    if(abs(y_max) <= 0.1*(absalt)) y_max<- 0.1*(absalt)
-    
-    
-    p <- ggplot(data = data.frame(x = 0), mapping = aes(x = x)) + geom_vline(xintercept = 0) + geom_hline(yintercept = 0) + xlim(a_k[1] - 1, b_k[1] + 1) + ylim(y_min,y_max) + xlab("Eixo x") + ylab("Eixo y")
+    p <- ggplot(data = data.frame(x = 0,y = 0), mapping = aes(x = x,y = y)) + geom_vline(xintercept = 0) + geom_hline(yintercept = 0) + xlim(a_k[1]-h_x, b_k[1]+h_x) + xlab("Eixo x") + ylab("Eixo y")
     p <- p + stat_function(fun = func, col = "red")
     plot_vector <<- list(p)
     
-    plot_vector[[2]] <<- plot_vector[[1]] + geom_point(x=a_k[1],y=0, col="blue", pch = 1) + geom_point(x=b_k[1],y= 0, col="blue", pch = 1)+annotate("text",label="a",x=a_k[1],y=3)+annotate("text",label="b",x=b_k[1],y=3)
+    plot_vector[[2]] <<- plot_vector[[1]] + geom_point(x=a_k[1],y=0, col="blue", pch = 1) + geom_point(x=b_k[1],y= 0, col="blue", pch = 1)+annotate("text",label="a0",x=a_k[1],y=0)+annotate("text",label="b0",x=b_k[1],y=0)
     
     # Animacao
-    #TODO: Implementar k opções gráficas
     for (i in 1:cont){
-      k <- 3 + 3*(i-1) 
       
-      p <- plot_vector[[k-1]] + geom_point(x = m_k[i], y = 0, col="blue", pch = 1)
+      plot_vector[[length(plot_vector)+1]] <<- plot_vector[[length(plot_vector)]] + geom_segment(x=a_k[i],xend=a_k[i],y=0,yend=fa_k[i],col= "azure4",linetype="dashed")+geom_segment(x=b_k[i],xend=b_k[i],y=0,yend=fb_k[i],col= "azure4",linetype="dashed")
       
-      if(g_indices){
-        index <-c(0:(i-1))
-        p <- p + annotate("text", label = toString(i),x= m_k[i],y=3 )
-      }
-      plot_vector[[k]] <<- p
-      
-      plot_vector[[k+1]] <<- plot_vector[[k]] + geom_segment(x=a_k[i],xend=a_k[i],y=0,yend=fa_k[i],col= "azure4",linetype="dashed")
+      plot_vector[[length(plot_vector)+1]] <<- plot_vector[[length(plot_vector)]] + geom_point(x=a_k[i],y=fa_k[i],col='grey')+geom_point(x=b_k[i],y=fb_k[i],col='grey')
       
       if(g_sc){
-        plot_vector[[k+2]] <<- plot_vector[[k+1]] + geom_segment(x=a_k[i],xend=b_k[i],y=fa_k[i],yend=fb_k[i], col="yellow") #lwd = 1.2
+        plot_vector[[length(plot_vector)+1]] <<- plot_vector[[length(plot_vector)]] + geom_segment(x=a_k[i],xend=b_k[i],y=fa_k[i],yend=fb_k[i], col="yellow")
       }
+      
+      p <- plot_vector[[length(plot_vector)]] + geom_point(x = m_k[i], y = 0, col="blue", pch = 1)
+      
+      if(g_indices){
+        p <- p + annotate("text", label = toString(i-1),x= m_k[i],y=0)
+      }
+      
+      plot_vector[[length(plot_vector)+1]] <<- p
+      
     }
     value_output <<- list()
     value_output[[1]] <<- paste("Aproximações: ",paste0(m_k, collapse =" | "))
