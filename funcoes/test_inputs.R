@@ -60,7 +60,7 @@ test_inputs <- function(input_metodo,input){
     else if(the_input %in% type_fun){
       met <- eval(parse(text=paste0('input$',the_input)))
       # garantir que não tem complexo, mas deixar sin()
-      if(str_detect(str_replace(met,'sin',''),'i') || met==''){
+      if(str_detect(str_replace(met,c('sin','sinpi','sinh','asinh','factorial','sign','ceiling','cospi','tanpi','pi'),''),'i') || met==''){
         error_vector <<- append(error_vector,paste('Não foi possível criar a função dada em ',the_input))
       }
       else{
