@@ -210,12 +210,9 @@ server <- function(session, input, output) {
   
   ### controle do timer
   observeEvent(input$s1, {
-    timer$started <- TRUE
+    timer$started <- !timer$started
   })
   observeEvent(input$s2, {
-    timer$started <- FALSE
-  })
-  observeEvent(input$s3, {
     timer$inc <- 1
     timer$started <- TRUE
   })
