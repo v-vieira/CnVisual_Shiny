@@ -77,7 +77,7 @@ ui <- fluidPage(
                                   column(10, h3(style = "text-align:center", "ATENÇÃO!"), htmlOutput(outputId = "warning_text"))
                          )
                        })),
-                       verbatimTextOutput(outputId = "text_output")
+                       shinyjs::hidden(htmlOutput(outputId = "text_output", class = "verbatim_output"))
                 ),
                 column(2,
                        tags$div(id = "opcoes_grapicas",
@@ -93,5 +93,13 @@ ui <- fluidPage(
               )
     )
   ),
-  tags$style(type = "text/css", "#plot1.recalculating { opacity: 1.0; }")
+  tags$style(type = "text/css", "#plot1.recalculating { 
+                                    opacity: 1.0; 
+                                  }
+                                  .verbatim_output {
+                                    display: block; padding: 9.5px; margin: 0 0 10px; font-size: 13px; line-height: 1.42857143; color: #333;
+                                    word-break: break-all; word-wrap: break-word; background-color: #f5f5f5; border: 1px solid #ccc;
+                                    border-radius: 4px; font-family: Menlo,Monaco,Consolas,\"Courier New\",monospace; overflow: auto;
+                                    box-sizing: border-box;
+                                  }")
 )

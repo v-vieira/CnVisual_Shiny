@@ -211,7 +211,7 @@ newtonraphson <- function(env_funcao, env_x0, env_decimais, env_iteracoes, g_ind
         }
       }
       value_output <<- list()
-      value_output[[1]] <<-  paste("Aproximacoes: ", paste0(x_k, collapse = " | "))
+      value_output[[1]] <<-  paste("Aproximações: ", paste0(x_k, collapse = " | "))
     }
   },
   warning = function(w) {

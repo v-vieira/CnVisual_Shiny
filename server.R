@@ -176,6 +176,7 @@ server <- function(session, input, output) {
           shinyjs::showElement(id = "warning_div")
         }
         timer$started <- TRUE
+        shinyjs::hideElement(id='text_output')
       }
       else{
         timer$started <- FALSE
@@ -198,8 +199,9 @@ server <- function(session, input, output) {
         })
         timer$inc <- isolate(timer$inc) + 1
         if (timer$inc == length(plot_vector)) {
-          output$text_output <- renderText({
-            value_output[[1]]
+          shinyjs::showElement(id='text_output')
+          output$text_output <- renderUI({
+            HTML(value_output[[1]])
           })
         }
       }

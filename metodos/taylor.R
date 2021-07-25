@@ -114,7 +114,7 @@ taylor <- function(env_funcao, env_ponto_input, env_ponto_aprox, env_graus, g_of
         p <- p + stat_function(fun = poli1, col = "chartreuse3")
         p <- p + geom_point(x = valenv, y = poli1(valenv), col = "blue", pch = 1)
         plot_vector[[i]] <<- p
-        resulpol1 <- paste0("\n", "No grau 1: ", poli1(valenv))
+        resulpol1 <- paste0("<text style=\"background-color:#66cd00;\"><br>No grau 1: ", poli1(valenv),"</text>")
         i <- i + 1
       }
       if (2 %in% env_graus) {
@@ -124,7 +124,7 @@ taylor <- function(env_funcao, env_ponto_input, env_ponto_aprox, env_graus, g_of
         p <- p + stat_function(fun = poli2, col = "aquamarine3")
         p <- p + geom_point(x = valenv, y = poli2(valenv), col = "blue", pch = 1)
         plot_vector[[i]] <<- p
-        resulpol2 <- paste0("\n", "No grau 2: ", poli2(valenv))
+        resulpol2 <- paste0("<text style=\"background-color:#66cdaa;\"><br>No grau 2: ", poli2(valenv),"</text>")
         i <- i + 1
       }
       if (3 %in% env_graus) {
@@ -134,7 +134,7 @@ taylor <- function(env_funcao, env_ponto_input, env_ponto_aprox, env_graus, g_of
         p <- p + stat_function(fun = poli3, col = "coral3")
         p <- p + geom_point(x = valenv, y = poli3(valenv), col = "blue", pch = 1)
         plot_vector[[i]] <<- p
-        resulpol3 <- paste0("\n", "No grau 3: ", poli3(valenv))
+        resulpol3 <- paste0("<text style=\"background-color:#cd5c45;color:#FFFFFF;\"><br>No grau 3: ", poli3(valenv),"</text>")
         i <- i + 1
       }
       if (4 %in% env_graus) {
@@ -144,7 +144,7 @@ taylor <- function(env_funcao, env_ponto_input, env_ponto_aprox, env_graus, g_of
         p <- p + stat_function(fun = poli4, col = "deeppink2")
         p <- p + geom_point(x = valenv, y = poli4(valenv), col = "blue", pch = 1)
         plot_vector[[i]] <<- p
-        resulpol4 <- paste0("\n", "No grau 4: ", poli4(valenv))
+        resulpol4 <- paste0("<text style=\"background-color:#ee1287;color:#FFFFFF;\"><br>No grau 4: ", poli4(valenv),"</text>")
         i <- i + 1
       }
       if (5 %in% env_graus) {
@@ -154,7 +154,7 @@ taylor <- function(env_funcao, env_ponto_input, env_ponto_aprox, env_graus, g_of
         p <- p + stat_function(fun = poli5, col = "midnightblue")
         p <- p + geom_point(x = valenv, y = poli5(valenv), col = "blue", pch = 1)
         plot_vector[[i]] <<- p
-        resulpol5 <- paste0("\n", "No grau 5: ", poli5(valenv))
+        resulpol5 <- paste0("<text style=\"background-color:#191970;color:#FFFFFF;\"><br>No grau 5: ", poli5(valenv),"</text>")
         i <- i + 1
       }
       
