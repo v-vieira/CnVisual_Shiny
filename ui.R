@@ -1,11 +1,9 @@
 library(shiny)
 library(shinyjs)
-library(plotly)
 library(shinyalert)
-library(pryr)
-
-print('===== INICIO UI =====')
-print(mem_used())
+library(ggplot2)
+library(plotly)
+library(stringr)
 
 ui <- fluidPage(
   useShinyjs(),
@@ -16,26 +14,27 @@ ui <- fluidPage(
     ### *Input () functions
     sidebarPanel(
       "Opções",
-      selectInput(    # Seleção do tipo de cálculo
+      # Seleção do tipo de cálculo
+      selectInput(
         inputId = "tipo",
         label = "Tipo",
-        choices = c("Raiz da função"='tipo_raiz',
-                    "Interpolação"='tipo_interpo',
-                    "Integração" ='tipo_integra')
+        choices = c("Raiz da função" = "tipo_raiz",
+                    "Interpolação" = "tipo_interpo",
+                    "Integração" = "tipo_integra")
       ),
-      
-      selectInput(    # Seleção do método
+      # Seleção do método
+      selectInput(
         inputId = "metodo",
         label = "Método",
         choices = c()
       ),
       
-      wellPanel(id="Entradas",    # Painel com todas as entradas, começam todas escondidas e mostram de acordo com a seleção do metodo
+      wellPanel(id = "Entradas",    # Painel com todas as entradas, começam todas escondidas e mostram de acordo com a seleção do metodo
                 shinyjs::hidden(textInput(inputId = "input_funcao", label = "Função")),
                 shinyjs::hidden(tags$div(id = "input_pontos_ab",
                                          fluidRow(
-                                           column(6, numericInput( inputId = "input_pontos_a", label = "a0", step = 0.05, value = NULL)),
-                                           column(6, numericInput( inputId = "input_pontos_b", label = "b0", step = 0.05, value = NULL))))),
+                                           column(6, numericInput(inputId = "input_pontos_a", label = "a0", step = 0.05, value = NULL)),
+                                           column(6, numericInput(inputId = "input_pontos_b", label = "b0", step = 0.05, value = NULL))))),
                 shinyjs::hidden(tags$div(id = "input_pontos_sec",
                                          fluidRow(
                                            column(6, numericInput(inputId = "input_pontos_x0", label = "x0", step = 0.05, value = NULL)),
@@ -51,19 +50,20 @@ ui <- fluidPage(
                                          fluidRow(
                                            column(6, numericInput(inputId = "input_integra_a", label = "a", step = 0.05, value = NULL)),
                                            column(6, numericInput(inputId = "input_integra_b", label = "b", step = 0.05, value = NULL))))),
-                shinyjs::hidden(checkboxGroupInput(inputId = "input_graus", label = "Graus de integração", choices = c("Grau 1" = 1, "Grau 2" = 2, "Grau 3" = 3, "Grau 4" = 4, "Grau 5" = 5))),
+                shinyjs::hidden(checkboxGroupInput(inputId = "input_graus", label = "Graus de integração",
+                                                   choices = c("Grau 1" = 1, "Grau 2" = 2, "Grau 3" = 3, "Grau 4" = 4, "Grau 5" = 5))),
                 shinyjs::hidden(numericInput(inputId = "input_decimais", label = "Nº casas decimais", step = 1, min = 1, max = 5, value = 1)),
                 shinyjs::hidden(numericInput(inputId = "input_iteracoes", label = "Nº iterações", step = 1, min = 2, max = 15, value = 3)),
                 shinyjs::hidden(numericInput(inputId = "input_veloc_anim", label = "Velocidade de animação", step = 0.1, min = 0.3, max = 5, value = 0.8))
       ),
-      
-      actionButton(    # Botão para rodar
-        inputId = 'button',
-        label = 'Rodar!'
+      # Botão para rodar
+      actionButton(
+        inputId = "button",
+        label = "Rodar!"
       ),
-      actionButton("s1","start"),
-      actionButton("s2","stop"),
-      actionButton("s3","restart")
+      actionButton("s1", "start"),
+      actionButton("s2", "stop"),
+      actionButton("s3", "restart")
     ),
     
     ### *Output() functions
@@ -71,13 +71,13 @@ ui <- fluidPage(
               fluidRow(
                 column(10,
                        plotlyOutput(outputId = "plot1"),
-                       shinyjs::hidden(tags$div(id='warning_div',{
-                         fluidRow(style='background-color:#fcf4e9; display: flex; align-items: center; justify-content: center;"',
-                                  column(2, style='', img(src='warning_icon.png')),
-                                  column(10,h3(style='text-align:center','ATENÇÃO!'),htmlOutput(outputId='warning_text'))
+                       shinyjs::hidden(tags$div(id = "warning_div", {
+                         fluidRow(style = "background-color:#fcf4e9; display: flex; align-items: center; justify-content: center;",
+                                  column(2, style = "", img(src = "warning_icon.png")),
+                                  column(10, h3(style = "text-align:center", "ATENÇÃO!"), htmlOutput(outputId = "warning_text"))
                          )
                        })),
-                       verbatimTextOutput(outputId = 'text_output')
+                       verbatimTextOutput(outputId = "text_output")
                 ),
                 column(2,
                        tags$div(id = "opcoes_grapicas",
@@ -93,6 +93,5 @@ ui <- fluidPage(
               )
     )
   ),
-  tags$style(type="text/css", "
-          #plot1.recalculating { opacity: 1.0; }")
+  tags$style(type = "text/css", "#plot1.recalculating { opacity: 1.0; }")
 )
