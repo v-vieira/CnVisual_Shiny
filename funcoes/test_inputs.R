@@ -33,13 +33,18 @@ test_inputs <- function(input_metodo,input){
       met <- eval(parse(text=paste0('input$',the_input)))
       valxaux <- as.list(strsplit(met," ")[[1]])
       error <- FALSE
-      for(value in valxaux){
-        if(is.na(as.numeric(value))){
-          error <- TRUE
-        }
+      if(length(valxaux)<2){
+        error_vector <<- append(error_vector,paste('Numero de pontos insuficiente em',the_input))
       }
-      if(error){
-        error_vector <<- append(error_vector,paste('Erro ao dividir os valores da lista em ',the_input))
+      else{
+        for(value in valxaux){
+          if(is.na(as.numeric(value))){
+            error <- TRUE
+          }
+        }
+        if(error){
+          error_vector <<- append(error_vector,paste('Erro ao dividir os valores da lista em ',the_input))
+        }
       }
     }
     # Teste da lista como numerico

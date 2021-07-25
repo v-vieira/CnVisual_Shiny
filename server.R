@@ -12,6 +12,7 @@ server <- function(session,input,output){
   plot_vector <<- NULL
   value_output <<- NULL
   error_vector <<- c()
+  warning_vector <<- c()
   
   source("./funcoes/popup.R",encoding = "utf-8")
   source("listas.R",encoding = "utf-8")
@@ -25,6 +26,15 @@ server <- function(session,input,output){
   source("./metodos/taylor.R",encoding="utf-8")
   source("./metodos/trapezios.R",encoding="utf-8")
   source("./metodos/simpson.R",encoding="utf-8")
+  
+  # Colocar a image de warning no output
+  output$warning_png <- renderImage({
+    return(list(
+      src='warning_icon.png',
+      filetype='image/png',
+      alt= 'warning'
+    ))
+  },deleteFile=FALSE)
   
   ### Mudar os metodos disponíveis de acordo com o tipo
   observeEvent(input$tipo,{
@@ -62,6 +72,7 @@ server <- function(session,input,output){
   observeEvent(input$button,{
     test_inputs(input$metodo,input)
     if(is.null(error_vector)){
+      shinyjs::hideElement(id='warning_div')
       if (as.numeric(input$input_veloc_anim) < 0.3){
         clock <<- reactiveTimer(300)
         timer <<- reactiveValues(inc=0, timer=clock,started=FALSE)
@@ -75,6 +86,7 @@ server <- function(session,input,output){
       plot_vector <<- NULL
       value_output <<- NULL
       error_vector <<- c()
+      warning_vector <<- c()
       
       if(input$tipo=="tipo_raiz"){
         if(input$metodo=="Bis"){
@@ -159,6 +171,14 @@ server <- function(session,input,output){
         }
       }
       if(is.null(error_vector)){
+        if(!is.null(warning_vector)){
+          text_warning = ''
+          for (value in warning_vector){
+            text_warning = paste(text_warning,'<li>',value,'</li>')
+          }
+          output$warning_text <- renderUI({HTML("<div style ='text-align:left'><ul>",text_warning,"</ul></div>")})
+          shinyjs::showElement(id='warning_div')
+        }
         timer$started <- TRUE
       }
       else{
@@ -192,7 +212,7 @@ server <- function(session,input,output){
   
   ### controle do timer
   observeEvent(input$s1,{timer$started<-TRUE})
-  observeEvent(input$s2,{timer$started<-FALSE})
+  observeEvent(input$s2,{timer$started<-FALSE  })
   observeEvent(input$s3, {
     timer$inc<-1
     timer$started<-TRUE
