@@ -11,7 +11,7 @@ server <- function(session, input, output) {
   source("./funcoes/popup.R", encoding = "utf-8")
   source("listas.R", encoding = "utf-8")
   source("./funcoes/test_inputs.R", encoding = "utf-8")
-  source("./metodos/Bissecao.R", encoding = "utf-8")
+  source("./metodos/bissecao.R", encoding = "utf-8")
   source("./metodos/newton_raphson.R", encoding = "utf-8")
   source("./metodos/falsa_posicao.R", encoding = "utf-8")
   source("./metodos/secante.R", encoding = "utf-8")
