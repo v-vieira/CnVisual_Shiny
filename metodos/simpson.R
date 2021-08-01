@@ -181,13 +181,13 @@ simpson <- function(env_funcao, env_interv_integra_a, env_interv_integra_b, env_
     },
     warning = function(w) {
       if (is.null(error_vector)) {
-        error_vector <<- c(error_vector, "Erro desconhecido;")
+        error_vector <<- c(error_vector, "Não foi possível executar o código, por favor, verifique os dados de entrada;")
       }
       return(NULL)
     },
     error = function(e) {
       if (is.null(error_vector)) {
-        error_vector <<- c(error_vector, "Erro desconhecido;")
+        error_vector <<- c(error_vector, "Não foi possível executar o código, por favor, verifique os dados de entrada;")
       }
       return(NULL)
     })

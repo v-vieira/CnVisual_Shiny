@@ -221,13 +221,13 @@ bissection <- function(env_funcao, env_pontos_1, env_pontos_2, env_decimais, env
   },
   warning = function(w) {
     if (is.null(error_vector)) {
-      error_vector <<- c(error_vector, "Erro desconhecido;")
+      error_vector <<- c(error_vector, "Não foi possível executar o código, por favor, verifique os dados de entrada;")
     }
     return(NULL)
   },
   error = function(e) {
     if (is.null(error_vector)) {
-      error_vector <<- c(error_vector, "Erro desconhecido;")
+      error_vector <<- c(error_vector, "Não foi possível executar o código, por favor, verifique os dados de entrada;")
     }
     return(NULL)
   }

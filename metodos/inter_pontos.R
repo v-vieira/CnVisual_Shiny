@@ -139,13 +139,13 @@ inter_pontos <- function(env_ponto_aprox, env_pontos_x, env_pontos_y, g_indices,
     },
     warning = function(w) {
       if (is.null(error_vector)) {
-        error_vector <<- c(error_vector, "Erro desconhecido;")
+        error_vector <<- c(error_vector, "Não foi possível executar o código, por favor, verifique os dados de entrada;")
       }
       return(NULL)
     },
     error = function(e) {
       if (is.null(error_vector)) {
-        error_vector <<- c(error_vector, "Erro desconhecido;")
+        error_vector <<- c(error_vector, "Não foi possível executar o código, por favor, verifique os dados de entrada;")
       }
       return(NULL)
     })
