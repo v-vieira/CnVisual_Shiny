@@ -69,7 +69,7 @@ ui <- fluidPage(
     mainPanel("Plot",
               fluidRow(
                 column(10,
-                       plotlyOutput(outputId = "plot1"),
+                       plotlyOutput(outputId = "plot1",height=500),
                        shinyjs::hidden(tags$div(id = "warning_div", {
                          fluidRow(style = "background-color:#fcf4e9; display: flex; align-items: center; justify-content: center;",
                                   column(2, style = "", img(src = "warning_icon.png")),

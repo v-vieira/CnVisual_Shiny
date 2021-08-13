@@ -195,7 +195,7 @@ server <- function(session, input, output) {
       if (isolate(timer$started) && isolate(timer$inc <= length(plot_vector) - 1)) {
         output$plot1 <- NULL
         output$plot1 <- renderPlotly({
-          ggplotly(plot_vector[[timer$inc]],height=500)
+          ggplotly(plot_vector[[timer$inc]])
         })
         timer$inc <- isolate(timer$inc) + 1
         if (timer$inc == length(plot_vector)) {
