@@ -61,8 +61,8 @@ ui <- fluidPage(
         inputId = "button",
         label = "Rodar!"
       ),
-      actionButton("s1", "Play/Pause"),
-      actionButton("s2", "Restart")
+      actionButton("playPause", "Play/Pause"),
+      actionButton("restart", "Restart")
     ),
     
     ### *Output() functions

@@ -1,7 +1,7 @@
 server <- function(session, input, output) {
   ### Inicia o timer com 1 seg
-  clock <- reactiveTimer(1000)
-  timer <- reactiveValues(inc = 0, timer = clock, started = FALSE)
+  timer <- reactiveTimer(intervalMs = 1000)
+  vars_anim <- list(inc = 1)
   ### Variáveis globais, usadas para controle.
   plot_vector <<- NULL
   value_output <<- NULL
@@ -68,12 +68,10 @@ server <- function(session, input, output) {
     if (is.null(error_vector)) {
       shinyjs::hideElement(id = "warning_div")
       if (as.numeric(input$input_veloc_anim) < 0.3) {
-        clock <<- reactiveTimer(300)
-        timer <<- reactiveValues(inc = 0, timer = clock, started = FALSE)
+        timer <<- reactiveTimer(300)
       }
       else{
-        clock <<- reactiveTimer(as.numeric(input$input_veloc_anim) * 1000)
-        timer <<- reactiveValues(inc = 0, timer = clock, started = FALSE)
+        timer <<- reactiveTimer(as.numeric(input$input_veloc_anim) * 1000)
       }
       
       ### Variáveis globais, usadas para controle.
@@ -175,45 +173,49 @@ server <- function(session, input, output) {
           })
           shinyjs::showElement(id = "warning_div")
         }
-        timer$started <- TRUE
+        vars_anim$inc <<- 1
+        anim$resume()
         shinyjs::hideElement(id='text_output')
       }
       else{
-        timer$started <- FALSE
+        anim$suspend()
         popup_erro(error_vector)
       }
     }
     else{
+      anim$suspend
       popup_erro(error_vector)
     }
   })
   
   ### Para cada alteração de valor do timer, plot os valores.
-  observe({
-    timer$timer()
+  anim <- observe({
+    timer()
     if (is.null(error_vector)) {
-      if (isolate(timer$started) && isolate(timer$inc <= length(plot_vector) - 1)) {
+      if (vars_anim$inc <= length(plot_vector)-1) {
         output$plot1 <- NULL
-        output$plot1 <- renderPlotly({
-          ggplotly(plot_vector[[timer$inc]])
-        })
-        timer$inc <- isolate(timer$inc) + 1
-        if (timer$inc == length(plot_vector)) {
-          shinyjs::showElement(id='text_output')
-          output$text_output <- renderUI({
-            HTML(value_output[[1]])
-          })
-        }
+        output$plot1 <- renderPlotly({ggplotly(plot_vector[[vars_anim$inc]])})
+        vars_anim$inc <<- vars_anim$inc + 1
+      }
+      else{
+        shinyjs::showElement(id='text_output')
+        output$text_output <- renderUI({HTML(value_output[[1]])})
+        anim$suspend()
       }
     }
-  })
+  }, suspended = TRUE)
   
   ### controle do timer
-  observeEvent(input$s1, {
-    timer$started <- !timer$started
+  observeEvent(input$playPause, {
+    if(isTRUE(anim$.suspended)){
+      anim$resume()
+    }
+    else{
+      anim$suspend()
+    }
   })
-  observeEvent(input$s2, {
-    timer$inc <- 1
-    timer$started <- TRUE
+  observeEvent(input$restart, {
+    vars_anim$inc <<- 1
+    anim$resume()
   })
 }
