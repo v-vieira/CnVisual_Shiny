@@ -192,9 +192,10 @@ server <- function(session, input, output) {
   anim <- observe({
     timer()
     if (is.null(error_vector)) {
-      if (vars_anim$inc <= length(plot_vector)-1) {
+      if (vars_anim$inc <= length(plot_vector)) {
+        aux_plot <- plot_vector[[vars_anim$inc]]
         output$plot1 <- NULL
-        output$plot1 <- renderPlotly({ggplotly(plot_vector[[vars_anim$inc]])})
+        output$plot1 <- renderPlotly({ggplotly(aux_plot)})
         vars_anim$inc <<- vars_anim$inc + 1
       }
       else{
