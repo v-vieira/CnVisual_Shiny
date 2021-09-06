@@ -14,6 +14,7 @@ ui <- fluidPage(
     ### *Input () functions
     sidebarPanel(
       "Opções",
+      tags$div(id = "over_page",tags$a(href="https://v-vieira.github.io/CnVisual_Shiny/", "Documentação",class="link_button")),
       # Seleção do tipo de cálculo
       selectInput(
         inputId = "tipo",
@@ -50,7 +51,7 @@ ui <- fluidPage(
                                          fluidRow(
                                            column(6, numericInput(inputId = "input_integra_a", label = "a", step = 0.05, value = NULL)),
                                            column(6, numericInput(inputId = "input_integra_b", label = "b", step = 0.05, value = NULL))))),
-                shinyjs::hidden(checkboxGroupInput(inputId = "input_graus", label = "Graus de integração",
+                shinyjs::hidden(checkboxGroupInput(inputId = "input_graus", label = "Ordem do Polinômio",
                                                    choices = c("Grau 1" = 1, "Grau 2" = 2, "Grau 3" = 3, "Grau 4" = 4, "Grau 5" = 5))),
                 shinyjs::hidden(numericInput(inputId = "input_decimais", label = "Nº casas decimais", step = 1, min = 1, max = 5, value = 1)),
                 shinyjs::hidden(numericInput(inputId = "input_iteracoes", label = "Nº iterações", step = 1, min = 2, max = 15, value = 3)),
@@ -61,8 +62,8 @@ ui <- fluidPage(
         inputId = "button",
         label = "Rodar!"
       ),
-      actionButton("playPause", "Play/Pause"),
-      actionButton("restart", "Restart")
+      actionButton("playPause", "Parar/Continuar"),
+      actionButton("restart", "Recomeçar")
     ),
     
     ### *Output() functions
@@ -100,5 +101,30 @@ ui <- fluidPage(
                                     word-break: break-all; word-wrap: break-word; background-color: #f5f5f5; border: 1px solid #ccc;
                                     border-radius: 4px; font-family: Menlo,Monaco,Consolas,\"Courier New\",monospace; overflow: auto;
                                     box-sizing: border-box;
+                                  }
+                                  #over_page {
+                                    position: fixed;
+                                    z-index: 999;
+                                    bottom: 0;
+                                    right: 0;
+                                    margin-right: 3%;
+                                    margin-bottom: 1%;
+                                  }
+                                  .link_button {
+                                    background:linear-gradient(to bottom, #e4ecf4 5%, #afd0f0 100%);
+	                                  background-color:#e4ecf4;
+	                                  border-radius:9px;
+	                                  border:1px solid #a3cbf7;
+	                                  display:inline-block;
+	                                  cursor:pointer;
+	                                  color:#1267fa;
+	                                  font-family:Arial;
+	                                  font-size:15px;
+	                                  font-weight:bold;
+	                                  padding:10px 17px;
+	                                  text-decoration:none;
+                                  }
+                                  .link_button:hover {
+                                    text-decoration: none !important;
                                   }")
 )
