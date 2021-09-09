@@ -1,6 +1,6 @@
 # CnVisual
 
-- Acesse online: [Shinyapps.io](https://vvieira.shinyapps.io/cnvisual_shiny/)\
+- Acesse online: [Shinyapps.io](https://vvieira.shinyapps.io/cnvisual_shiny/)
 - Documentação: [Clique aqui](https://v-vieira.github.io/CnVisual_Shiny/)
 
 O CnVisual é uma ferramenta computacional que pode ser acessada através do navegador web. Desenvolvido na linguagem de programação R e o pacote [Shiny](), tem o intuito de auxiliar no aprendizado e ensino da disciplina Cálculo Numérico.
