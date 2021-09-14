@@ -1,5 +1,5 @@
 ---
-title: "CnVisual - Documentação"
+title: "CnVisual — Documentação"
 #author: "Victor Vieira"
 output: 
   html_document: 
@@ -33,7 +33,7 @@ Foi implementado um total de 9 métodos, que estão divididos em 3 categorias:
 
 Os tipos e métodos que serão utilizados podem ser selecionados através dos campos "Tipo" e "Método" na coluna "Opções". Cada método tem uma abordagem diferente, que pode ser melhor compreendida através das animações do CnVisual.
 
-Abaixo estão especificados quais são esses métodos e seus valores de entrada para pleno da ferramenta. Além disso, são colocados *links* que direcionam para algumas páginas da web que tem o intuito de auxiliar no entendimento dos métodos. Não necessariamente a nomenclatura dessas páginas é a mesma utilizada aqui, tendo em vista que usamos como referência bibliográfica o livro [Ruggiero 2ª Ed.][link_ruggiero].
+Abaixo estão especificados quais são esses métodos e seus valores de entrada para pleno da ferramenta. Além disso, são colocados *links* que direcionam para algumas páginas da *web* que tem o intuito de auxiliar no entendimento dos métodos. Não necessariamente a nomenclatura dessas páginas é a mesma utilizada aqui, tendo em vista que usamos como referência bibliográfica o livro [Ruggiero 2ª Ed.][link_ruggiero].
 
 **Você pode ir diretamente para a parte de exemplos clicando [aqui](#Exemplos).**
 
@@ -41,7 +41,7 @@ Abaixo estão especificados quais são esses métodos e seus valores de entrada 
 
 ### Aproximação de Raízes {#Raizes .tabset}
 
-Nesta categoria estão os métodos que são capazes de aproximar as raízes de uma dada função.
+Nesta categoria estão os métodos que conseguem aproximar as raízes de uma dada função.
 
 #### Bisseção
 
@@ -55,7 +55,7 @@ Para mais informações: [Wikipedia](https://pt.wikipedia.org/wiki/Método_da_bi
 |b0|Número real com ponto **"."** como separador decimal|`5`|Limite superior do intervalo<br>a0<b0|
 |Nº casas decimais|Número inteiro positivo|`2`|Número de casas decimais aceitável para interromper as iterações. 2 equivale a 0.01, 3 a 0.001...|
 |Nº Iterações|Número inteiro positivo|`7`|Quantidade máxima de iterações para interromper o método|
-|Velocidade de animação|Número real positivo com ponto **"."** como separador decimal|`1.2`|Tempo em segundos entre cada step do *plot*|
+|Velocidade de animação|Número real positivo com ponto **"."** como separador decimal|`1.2`|Tempo em segundos entre cada *step* do *plot*|
 
 #### Posição Falsa
 
@@ -115,7 +115,7 @@ Para mais informações: [Wikipedia](https://pt.wikipedia.org/wiki/Polinômio_de
 |Campo|Valor esperado|Exemplo|Significado|
 |:---:|:---:|:---:|:---:|
 |Função|Expressão matemática em função de ***x*** (minúsculo) e usando a [sintaxe do R][link_sintaxe_R]|`4*cos(x) - sin(x)^2 + exp(3) + sqrt(x)`|Função que será aproximada pelo método|
-|Pontos X|Números reais com ponto **"."** como separador decimal, separados por espaço **" "**|`-3 -1.432 0.53 2 3.1`|Coordenada no Eixo X dos pontos utilizado para fazer a interpolação|
+|Pontos X|Números reais com ponto **"."** como separador decimal, separados por espaço **" "**|`-3 -1.432 0.53 2 3.1`|Coordenada no Eixo X dos pontos utilizados para fazer a interpolação|
 |Ponto a ser aproximado|Número real com ponto **"."** como separador decimal|`-2.4543`|Com o polinômio gerado, é aproximado o valor desse ponto e comparado com o valor do mesmo na função|
 |Velocidade de animação|Número real positivo com ponto **"."** como separador decimal|`1.2`|Tempo em segundos entre cada step do *plot*|
 
@@ -184,13 +184,13 @@ Além dos seletores de métodos e seus respectivos parâmetros de entrada, a int
 
 ![](www/areas_plot.png){.print}
 
-Na área 1 estão os *inputs* conforme já explicado na seção anterior. Os botões da Área 2 servem para rodar o método e controlar a animação que é mostrada na área 3. Além da animação, na área 3 estão também são mostrados os resultados mostrados pelo método e alertas, caso necessário. Já na Área 4 estão presentes algumas opções gráficas, que controlam o plot.
+Na área 1 estão os *inputs* conforme já explicado na seção anterior. Os botões da Área 2 servem para rodar o método e controlar a animação mostrada na área 3. Além da animação, na área 3 estão também são mostrados os resultados mostrados pelo método e alertas, caso necessário. Já na Área 4 estão presentes algumas opções gráficas, que controlam o plot.
 
 ### Janela de erro e avisos
 
-Talvez você se depare com a janela de erro, similar a figura abaixo. Boa parte dos erros estão mapeados e terá uma breve descrição do que ocorreu, mas de forma geral, quando os erros são entradas inválidas, como por exemplo virgula **","** no lugar de ponto **"."** como separador decimal. Confira a seção de [parâmetros](#Ferramenta) acima.\
+Talvez você se depare com a janela de erro, similar a figura abaixo. Boa parte dos erros estão mapeados e terá uma breve descrição do que ocorreu, mas de forma geral, quando os erros são entradas inválidas, como, por exemplo, virgula **","** no lugar de ponto **"."** como separador decimal. Confira a seção de [parâmetros](#Ferramenta) acima.\
 
-Também pode ocorrer um erro devido à natureza do método, como por exemplo: Divisão por zero ao longo de alguma das iterações.\
+Também pode ocorrer um erro devido à natureza do método, por exemplo: divisão por zero ao longo de alguma das iterações.\
 
 ![](www/erro.png){width=425px .print}
 
