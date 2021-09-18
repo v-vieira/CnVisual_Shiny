@@ -87,7 +87,7 @@ Para mais informações: [Wikipedia](https://pt.wikipedia.org/wiki/Método_de_Ne
 |Nº Iterações|Número inteiro positivo|`7`|Quantidade máxima de iterações para interromper o método|
 |Velocidade de animação|Número real positivo com ponto **"."** como separador decimal|`1.2`|Tempo em segundos entre cada step do *plot*|
 
-#### Secantes
+#### Secante
 
 Esse método é bastante similar ao método da posição falsa, porém, não é necessário que tenha uma raiz entre os pontos utilizados para calcular a secante.\
 Para mais informações: [Wikipedia](https://pt.wikipedia.org/wiki/Método_das_secantes) ou [Ruggiero 2ª Ed.][link_ruggiero] Cap. 2.3.2.V
@@ -128,10 +128,12 @@ Para mais informações: [Wikipedia](https://pt.wikipedia.org/wiki/Polinômio_de
 
 |Campo|Valor esperado|Exemplo|Significado|
 |:---:|:---:|:---:|:---:|
-|Pontos X|Números reais com ponto **"."** como separador decimal, separados por espaço **" "**|`-3 -1.432 0.53 2 3.1`|Valor no Eixo X dos pontos utilizado para fazer a interpolação|
-|Pontos Y|Números reais com ponto **"."** como separador decimal, separados por espaço **" "**|`-3 -1.432 0.53 2 3.1`|Valor no Eixo Y dos pontos utilizado para fazer a interpolação|
+|Coordenada X dos Pontos|Números reais com ponto **"."** como separador decimal, separados por espaço **" "**|`-3 -1.432 0.53 2 3.1`|Valor no Eixo X dos pontos utilizado para fazer a interpolação|
+|Coordenada Y dos Pontos|Números reais com ponto **"."** como separador decimal, separados por espaço **" "**|`-3 -1.432 0.53 2 3.1`|Valor no Eixo Y dos pontos utilizado para fazer a interpolação|
 |Ponto a ser aproximado|Número real com ponto **"."** como separador decimal|`-2.4543`|Com o polinômio gerado, é aproximado o valor desse ponto|
 |Velocidade de animação|Número real positivo com ponto **"."** como separador decimal|`1.2`|Tempo em segundos entre cada step do *plot*|
+
+### Aproximação de Funções {#Aproximacao .tabset}
 
 #### Taylor
 

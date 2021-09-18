@@ -127,20 +127,20 @@ server <- function(session, input, output) {
                        input$g_indices,
                        input$g_lv)
         }
-        else if (input$metodo == "Pol_pon") {
+        else {
           inter_pontos(input$input_ponto_aprox,
                        input$input_pontos_x,
                        input$input_pontos_y,
                        input$g_indices,
                        input$g_lv)
         }
-        else{
-          taylor(input$input_funcao,
-                 input$input_ponto_input,
-                 input$input_ponto_aprox,
-                 input$input_graus,
-                 input$g_offset)
-        }
+      }
+      else if (input$tipo == "tipo_aprox") {
+        taylor(input$input_funcao,
+               input$input_ponto_input,
+               input$input_ponto_aprox,
+               input$input_graus,
+               input$g_offset)
       }
       else{
         if (input$metodo == "Tra") {

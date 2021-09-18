@@ -10,7 +10,7 @@ lista_entradas <- list("input_funcao", "input_pontos_ab", "input_pontos_sec",
 
 lista_og <- list("g_indices", "g_lh", "g_sc", "g_lv", "g_ltg", "g_pintar")
 # lista com os tipos de metodos
-nomes_tipos <- list("tipo_raiz", "tipo_interpo", "tipo_integra")
+nomes_tipos <- list("tipo_raiz", "tipo_interpo", "tipo_aprox", "tipo_integra")
 
 # entradas utilizadas em cada metodo
 entrada_metodo <- list(
@@ -31,9 +31,11 @@ entrada_metodo <- list(
   c("input_pontos_x", "input_funcao", "input_ponto_aprox", "input_veloc_anim"),
   # Pol. de Lagrange por pontos
   c("input_pontos_x", "input_pontos_y", "input_ponto_aprox", "input_veloc_anim"),
+
+  ####    APROXIMAÇÃO
   # Taylor
   c("input_funcao", "input_ponto_input", "input_ponto_aprox", "input_graus", "input_veloc_anim", "g_offset"),
-
+  
   ####    INTEGRAÇÃO
 
   # Trapézios
@@ -69,8 +71,9 @@ names(grafico_metodo) <- metodos
 
 #  tipos de metodos e seus ids
 metodos_tipos <- list(
-  c("Bisseção" = "Bis", "Falsa Posição" = "Fal_Pos", "Newton-Raphson" = "New_Rap", "Secantes" = "Sec"),
-  c("Pol. de Lagrange (função)" = "Pol_fun", "Pol. de Lagrange (pontos)" = "Pol_pon", "Taylor" = "Tay"),
+  c("Bisseção" = "Bis", "Posição Falsa" = "Fal_Pos", "Newton-Raphson" = "New_Rap", "Secante" = "Sec"),
+  c("Polinômios de Lagrange (função)" = "Pol_fun", "Polinômios de Lagrange (pontos)" = "Pol_pon"),
+  c("Taylor" = "Tay"),
   c("Trapézios" = "Tra", "Simpson" = "Sim")
 )
 names(metodos_tipos) <- nomes_tipos

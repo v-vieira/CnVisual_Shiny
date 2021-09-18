@@ -21,6 +21,7 @@ ui <- fluidPage(
         label = "Tipo",
         choices = c("Raiz da função" = "tipo_raiz",
                     "Interpolação" = "tipo_interpo",
+                    "Aproximação de Funções" = "tipo_aprox",
                     "Integração" = "tipo_integra")
       ),
       # Seleção do método
@@ -41,8 +42,8 @@ ui <- fluidPage(
                                            column(6, numericInput(inputId = "input_pontos_x0", label = "x0", step = 0.05, value = NULL)),
                                            column(6, numericInput(inputId = "input_pontos_x1", label = "x1", step = 0.05, value = NULL))))),
                 shinyjs::hidden(numericInput(inputId = "input_x0", label = "x0", step = 0.05, value = NULL)),
-                shinyjs::hidden(textInput(inputId = "input_pontos_x", label = "Pontos X")),
-                shinyjs::hidden(textInput(inputId = "input_pontos_y", label = "Pontos Y")),
+                shinyjs::hidden(textInput(inputId = "input_pontos_x", label = "Coordenada X dos Pontos")),
+                shinyjs::hidden(textInput(inputId = "input_pontos_y", label = "Coordenada Y dos Pontos")),
                 shinyjs::hidden(numericInput(inputId = "input_ponto_input", label = "Ponto utilizado pelo método", step = 0.05, value = NULL)),
                 shinyjs::hidden(numericInput(inputId = "input_ponto_aprox", label = "Ponto a ser aproximado", step = 0.05, value = NULL)),
                 shinyjs::hidden(numericInput(inputId = "input_divisoes", label = "nº de divisões", step = 1, min = 2, max = 14, value = 2)),
