@@ -72,25 +72,25 @@ test_inputs <- function(input_metodo, input) {
                                         "cospi", "tanpi", "pi"), ""), "i") || met == "") {
         error_vector <<- append(error_vector, paste("Não foi possível criar a função dada em ", the_input))
       }
-      else{
-        tryCatch({
-          eval(parse(text = paste("a<-function(x) {", met, "}")))
-          b <- a(10)
-          if (is.na(b)) {
-            error_vector <<- append(error_vector, paste("Não foi possível criar a função dada em ", the_input))
-          }
-          else if (b == Inf) {
-            error_vector <<- append(error_vector, paste("Não foi possível criar a função dada em ", the_input))
-          }
-        },
-        warning = function(w) {
-          error_vector <<- append(error_vector, paste("Não foi possível criar a função dada em ", the_input))
-        },
-        error = function(e) {
-          error_vector <<- append(error_vector, paste("Não foi possível criar a função dada em ", the_input))
-        }
-        )
-      }
+      # else{
+      #   tryCatch({
+      #     eval(parse(text = paste("a<-function(x) {", met, "}")))
+      #     b <- a(10)
+      #     if (is.na(b)) {
+      #       error_vector <<- append(error_vector, paste("Não foi possível criar a função dada em ", the_input))
+      #     }
+      #     else if (b == Inf) {
+      #       error_vector <<- append(error_vector, paste("Não foi possível criar a função dada em ", the_input))
+      #     }
+      #   },
+      #   warning = function(w) {
+      #     error_vector <<- append(error_vector, paste("Não foi possível criar a função dada em ", the_input))
+      #   },
+      #   error = function(e) {
+      #     error_vector <<- append(error_vector, paste("Não foi possível criar a função dada em ", the_input))
+      #   }
+      #   )
+      # }
     }
   }
 }

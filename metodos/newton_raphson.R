@@ -110,8 +110,9 @@ newtonraphson <- function(env_funcao, env_x0, env_decimais, env_iteracoes, g_ind
       cont <- 2
       whilevar <- - 1
       
-      tryCatch({
+      
         while (whilevar == - 1) {
+          tryCatch({
           cont <- cont + 1
           x_k[cont] <- (x_k[cont - 1] - ((func(x_k[cont - 1])) / (dev_func(x_k[cont - 1]))))
           fx_k[cont] <- func(x_k[cont])
@@ -126,7 +127,7 @@ newtonraphson <- function(env_funcao, env_x0, env_decimais, env_iteracoes, g_ind
             whilevar <- 1
           }
         }
-      },
+      ,
       warning = function(w) {
         if (is.null(error_vector)) {
           error_vector <<- c(error_vector, "Não foi possível calcular os pontos na função ou a derivada é zero;")
@@ -139,6 +140,7 @@ newtonraphson <- function(env_funcao, env_x0, env_decimais, env_iteracoes, g_ind
         }
         return(NULL)
       })
+        }
       
       ### PLOT
       x_min <- min(x_k)
@@ -226,4 +228,4 @@ newtonraphson <- function(env_funcao, env_x0, env_decimais, env_iteracoes, g_ind
     }
     return(NULL)
   })
-}
+print('rodou')}
