@@ -198,6 +198,30 @@ Também pode ocorrer um erro devido à natureza do método, por exemplo: divisã
 
 Caso você encontre algum erro não mapeado `"Erro desconhecido"` ou tenha dúvidas quanto a natureza de algum outro erro, [entre em contato conosco][link_contato].
 
+## Sintaxe do R {#Sintaxe .tabset}
+
+Nessa seção estão listados alguns operadores e funções do R para criação de funções. [Esse link][link_externo_sintaxe] também pode ser útil.
+
+### Aritmético
+|Operador|Operação|Exemplo|Resultado|
+|:---:|:---:|:---:|:---:|
+|`+`|Adição|`3 + 5`|`8`|
+|`-`|Subtração|`3 - 5`|`-2`|
+|`*`|Multiplicação|`3 \* 5`|`15`|
+|`/`|Divisão|`3 / 5`|`0.6`|
+|`^`|Expoente|`3^5`|`243`|
+
+### Funções
+|Função|Significado|Função|Significado|
+|:---:|:---:|:---:|:---:|
+|`abs(x)`|Valor absoluto de x|`exp(x)`|Exponencial de x, ou seja: `e^x`|
+|`cos(x)`|cosseno de x, sendo x em radianos|`log(x)`|Logaritmo natural (base `e`) de x|
+|`sin(x)`|seno de x, sendo x em radianos|`log10(x)`|Logaritmo na base 10 de x|
+|`tan(x)`|tangente de x, sendo x em radianos|`sqrt(x)`|Raiz quadrada de x|
+
+
+
+
 
 
 ## Exemplos {#Exemplos .tabset}
@@ -216,5 +240,6 @@ Aqui estão presentes alguns *prints* com exemplos de uso da ferramenta:
 
 [link_contato]:https://forms.gle/7ScdnoWzJTUMcECG9
 [link_ruggiero]:https://bit.ly/3BxI31V
-[link_sintaxe_R]:https://www.tutorialgateway.org/r-arithmetic-operators/
+[link_externo_sintaxe]:https://www.tutorialgateway.org/r-arithmetic-operators/
+[link_sintaxe_R]:#Sintaxe
 
